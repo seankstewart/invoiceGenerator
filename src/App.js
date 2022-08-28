@@ -57,7 +57,7 @@ const formatCrypto = (value) => {
 
 const AddButton = ({handleAdd}) => {
   return (
-    <div><button onClick={handleAdd}>Add</button></div>
+    <button onClick={handleAdd}>Add</button>
   )
 }
 
@@ -82,7 +82,7 @@ const AddButton = ({handleAdd}) => {
 //   // }, [updated]);
 // }
 
-const Table = ({rates, isUpdated, handleEdit, handleDelete}) => {
+const Table = ({rates, isUpdated, handleAdd, handleEdit, handleDelete}) => {
 
   // const [isUpdated, intervalIsOn] = useInterval();
   const styles = {
@@ -95,33 +95,46 @@ const Table = ({rates, isUpdated, handleEdit, handleDelete}) => {
       <table cellPadding="0" cellSpacing="0" border="1" style={(isUpdated === false) ? {...styles, backgroundColor: 'red'} : {...styles, backgroundColor: 'pink'}}>
         <thead>
           <tr>
+            <th><input type="checkbox" disabled="disabled" /></th>
             <th>Merchant</th>
             <th>Item</th>
             <th>Amount (Crypto)</th>
             <th>Currency</th>
             <th>Price/crypto (USD)</th>
             <th>Amount (USD)</th>
-            <th>Actions</th>
+            {/* <th>Actions</th> */}
           </tr>
         </thead>
         <tbody>
           {defaultData.map((data, index) => {
             return (
               <tr key={`tableRow${index}`}>
+                <td>
+                  <input type="checkbox" onClick={(e) => handleEdit(index)} />
+                </td>
                 <td>{data.merchant}</td>
                 <td>{data.item}</td>
                 <td>{formatCrypto(data.amountCypto)}</td>
                 <td>{data.currentcy}</td>
                 <td>{formatUSD(data.priceCypto)}</td>
                 <td>{formatUSD(data.amountUSD)}</td>
-                <td>
+                {/* <td>
                   <button onClick={(e) => handleEdit(index)}>Edit</button>
                   <button onClick={(e) => handleDelete(index)}>Delete</button>
-                </td>
+                </td> */}
               </tr>
             )
           })}
         </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan="7" align="left">
+              <AddButton handleAdd={handleAdd} />
+              <button onClick={(e) => handleEdit(0)}>Edit</button>
+              <button onClick={(e) => handleDelete(0)}>Delete</button>
+            </td>
+          </tr>
+        </tfoot>
       </table>
     </>
   )
@@ -222,8 +235,7 @@ function App() {
       {(isPending === true) ? 'Getting Current Rates...' 
         : 
         <>
-          <Table rates={rates} isUpdated={updated} handleEdit={handleEdit} handleDelete={handleDelete} />
-          <AddButton handleAdd={handleAdd} />
+          <Table rates={rates} isUpdated={updated} handleAdd={handleAdd} handleEdit={handleEdit} handleDelete={handleDelete} />
           <Form rates={rates} setDisplayForm={setDisplayForm} displayForm={displayForm} setUpdated={setUpdated} handleEdit={handleEdit} />
           <Rates rates={rates} isUpdated={updated} />
         </>
