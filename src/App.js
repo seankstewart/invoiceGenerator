@@ -4,30 +4,30 @@ import './App.css';
 
 
 const defaultData = [
-  {
-    merchant: 'ShirtTown',
-    item: 'T-shirts',
-    amountCypto: 1.43219876,
-    currentcy: 'BTC',
-    priceCypto: 9285.93,
-    amountUSD: 13299.30
-  },
-  {
-    merchant: 'CrazyCups',
-    item: 'Cups',
-    amountCypto: 2.76236751,
-    currentcy: 'BCH',
-    priceCypto: 6483.69,
-    amountUSD: 17910.33
-  },
-  {
-    merchant: 'GimmeGold',
-    item: 'Gold bullion',
-    amountCypto: 10.78654328,
-    currentcy: 'ETH',
-    priceCypto: 442.08,
-    amountUSD: 4768.52
-  }
+  // {
+  //   merchant: 'ShirtTown',
+  //   item: 'T-shirts',
+  //   amountCypto: 1.43219876,
+  //   currentcy: 'BTC',
+  //   priceCypto: 9285.93,
+  //   amountUSD: 13299.30
+  // },
+  // {
+  //   merchant: 'CrazyCups',
+  //   item: 'Cups',
+  //   amountCypto: 2.76236751,
+  //   currentcy: 'BCH',
+  //   priceCypto: 6483.69,
+  //   amountUSD: 17910.33
+  // },
+  // {
+  //   merchant: 'GimmeGold',
+  //   item: 'Gold bullion',
+  //   amountCypto: 10.78654328,
+  //   currentcy: 'ETH',
+  //   priceCypto: 442.08,
+  //   amountUSD: 4768.52
+  // }
 ]
 
 
@@ -85,11 +85,9 @@ const AddButton = ({handleAdd}) => {
 const Table = ({rates, isUpdated, handleEdit, handleDelete}) => {
 
   // const [isUpdated, intervalIsOn] = useInterval();
-  
-
   const styles = {
     margin:'auto'
-  }  
+  }
 
   return (
     <>
@@ -154,7 +152,6 @@ function App() {
     await fetch('./rates.json')
       .then(response => response.json())
       .then(json => {
-          console.log(json);
           setRates(json);
           setUpdated(u => !u);
           setIsPending(false);
@@ -225,9 +222,9 @@ function App() {
       {(isPending === true) ? 'Getting Current Rates...' 
         : 
         <>
-          <Table isUpdated={updated} handleEdit={handleEdit} handleDelete={handleDelete} />
+          <Table rates={rates} isUpdated={updated} handleEdit={handleEdit} handleDelete={handleDelete} />
           <AddButton handleAdd={handleAdd} />
-          <Form setDisplayForm={setDisplayForm} displayForm={displayForm} setUpdated={setUpdated} handleEdit={handleEdit} />
+          <Form rates={rates} setDisplayForm={setDisplayForm} displayForm={displayForm} setUpdated={setUpdated} handleEdit={handleEdit} />
           <Rates rates={rates} isUpdated={updated} />
         </>
       }
@@ -259,7 +256,7 @@ const Rates = ({rates, isUpdated}) => {
 
 
 
-const Form = ({setDisplayForm, displayForm, setUpdated}) => {
+const Form = ({rates, setDisplayForm, displayForm, setUpdated}) => {
 
   const emptyValues = {index: '', valueMerchant: '', valueItem: '', valueCurrency: "0", valueAmountCypto: ''};
   const [formState, setFormState] = useState(emptyValues);
@@ -283,7 +280,9 @@ const Form = ({setDisplayForm, displayForm, setUpdated}) => {
         setFormState({...formState, valueCurrency: event.target.value});
         break;
       case 'amountCypto':
-        setFormState({...formState, valueAmountCypto: event.target.value});
+        if (new RegExp("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$").test(event.target.value) && event.target.value.length <= 10) {
+          setFormState({...formState, valueAmountCypto: event.target.value});
+        }
         break;
       default:
         setFormState({...formState})   
@@ -317,7 +316,7 @@ const Form = ({setDisplayForm, displayForm, setUpdated}) => {
     }
   }
 
-
+  
   if (displayForm !== false) {
     return (
       <div>
@@ -342,9 +341,12 @@ const Form = ({setDisplayForm, displayForm, setUpdated}) => {
             <label htmlFor="currency">Currency</label>
             <select value={formState.valueCurrency} id="currency" name="currency" tabIndex="0" onChange={handleChange}>
               <option value="0"></option>
-              <option value="BTC">BTC</option>
+              {
+                rates.map(r => <option key={r.code} value={r.code}>{r.code}</option>)
+              }
+              {/* <option value="BTC">BTC</option>
               <option value="BCH">BCH</option>
-              <option value="ETH">ETH</option>
+              <option value="ETH">ETH</option> */}
               {/* <option value="USD">USD</option> */}
             </select>
           </p>
