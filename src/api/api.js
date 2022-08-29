@@ -3,6 +3,15 @@ class API {
       this.state = state;
   }
 
+  emptyModel = {
+      merchant: '',
+      item: '',
+      amountCypto: '',
+      currentcy: '',
+      priceCypto: NaN,
+      amountUSD: NaN
+  }
+
   defaultData = [
     {
       merchant: 'ShirtTown',
