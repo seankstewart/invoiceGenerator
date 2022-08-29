@@ -1,6 +1,7 @@
 import React, {useCallback, useContext} from 'react';
 import Button from './Button';
-import { AppContext } from '../App';
+import { AppContext } from '../../App';
+import './AddButton.scss';
 
 const AddButton = ({children}) => {
 
@@ -19,7 +20,9 @@ const AddButton = ({children}) => {
 
     if (context.state.mode === 'read') {
         return (
-            <Button action={handleAdd}>{children}</Button>
+            <div className={`button-add`}>
+                <Button action={handleAdd}>{children}</Button>
+            </div>
         )
     }
 }

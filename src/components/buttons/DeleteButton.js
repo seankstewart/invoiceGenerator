@@ -1,6 +1,6 @@
 import React, {useCallback, useContext} from 'react';
 import Button from './Button';
-import { AppContext } from '../App';
+import { AppContext } from '../../App';
 
 const DeleteButton = ({children}) => {
 

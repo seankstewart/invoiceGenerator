@@ -1,6 +1,7 @@
 import React, {useCallback, useContext} from 'react';
 import Button from './Button';
-import { AppContext } from '../App';
+import { AppContext } from '../../App';
+import API from '../../api/api';
 
 const EditButton = ({children}) => {
 
@@ -14,7 +15,7 @@ const EditButton = ({children}) => {
         
         if (context.state.mode === 'edit') {
   
-            let rateToUSD = async () => await context.getRatesToUSD(context.state.model[context.state.index].currentcy).then((res) => {
+            let rateToUSD = async () => await new API().getRatesToUSD(context.state.model[context.state.index].currentcy).then((res) => {
                 context.state.model[context.state.index].priceCypto = res;
                 context.state.model[context.state.index].amountUSD = res * parseFloat(context.state.model[context.state.index].amountCypto)
                 context.setState({...context.state, mode: 'read'})
