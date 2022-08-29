@@ -8,7 +8,7 @@ import TableDataAmountCrypto from './TableDataAmountCrypto';
 import TableDataCurrency from './TableDataCurrency';
 import TableDataCalculated from './TableDataCalculated';
 
-const Table = ({handleChange, handleCheckbox, rates}) => {
+const Table = ({handleBlur, handleChange, handleCheckbox, rates}) => {
 
     const context = useContext(AppContext);
 
@@ -21,12 +21,12 @@ const Table = ({handleChange, handleCheckbox, rates}) => {
             return (
             <tr key={`tableRow${index}`}>
                 <td>
-                <input type="checkbox" checked={(context.state.mode === 'read' || context.state.index !== index) ? false : true} onChange={(event) => handleCheckbox(event, index)} />
+                    <input type="checkbox" checked={(context.state.mode === 'read' || context.state.index !== index) ? false : true} onChange={(event) => handleCheckbox(event, index)} />
                 </td>
                 <TableDataMerchant index={index} handleChange={handleChange} />
                 <TableDataItem index={index} handleChange={handleChange} />
-                <TableDataAmountCrypto index={index} handleChange={handleChange} handleCheckbox={handleCheckbox} />
-                <TableDataCurrency index={index} handleChange={handleChange} handleCheckbox={handleCheckbox} rates={rates} />
+                <TableDataAmountCrypto index={index} handleBlur={handleBlur} handleChange={handleChange} />
+                <TableDataCurrency index={index} handleBlur={handleBlur} handleChange={handleChange} rates={rates} />
                 <TableDataCalculated index={index} />
             </tr>
             )

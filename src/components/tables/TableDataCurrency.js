@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import TableData from './TableData'
 import { AppContext } from '../../App';
 
-const TableDataCurrency = ({index, handleChange, handleCheckbox, rates}) => {
+const TableDataCurrency = ({index, handleBlur, handleChange, rates}) => {
 
   const context = useContext(AppContext);
 
@@ -14,7 +14,7 @@ const TableDataCurrency = ({index, handleChange, handleCheckbox, rates}) => {
       :
           <p>
           <label htmlFor="currency">Currency</label>
-          <select value={context.state.model[index].currentcy} id="currentcy" name="currency" tabIndex="0" onChange={(e) => handleChange(e)} onBlur={(e) => handleCheckbox(e, index)}>
+          <select value={context.state.model[index].currentcy} id="currentcy" name="currency" tabIndex="0" onChange={(e) => handleChange(e, index)} onBlur={(e) => handleBlur(e)}>
               <option value="0"></option>
               {
               rates.map(r => <option key={r.code} value={r.code}>{r.code}</option>)

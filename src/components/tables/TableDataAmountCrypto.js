@@ -3,7 +3,7 @@ import TableData from './TableData'
 import { AppContext } from '../../App';
 import NumbersFormat from '../../utils/numberFormat';
 
-const TableDataAmountCrypto = ({index, handleChange, handleCheckbox}) => {
+const TableDataAmountCrypto = ({index, handleBlur, handleChange}) => {
 
   const context = useContext(AppContext);
   const formatCrypto = new NumbersFormat().formatCrypto;
@@ -16,7 +16,7 @@ const TableDataAmountCrypto = ({index, handleChange, handleCheckbox}) => {
         :
             <p>
             <label htmlFor="amountCypto">Amount (Cypto)</label>
-            <input type="text" value={context.state.model[index].amountCypto} id="amountCypto" name="amountCypto" tabIndex="0" onChange={(e) => handleChange(e)} onBlur={(e) => handleCheckbox(e, index)} />
+            <input type="text" value={context.state.model[index].amountCypto} id="amountCypto" name="amountCypto" tabIndex="0" onChange={(e) => handleChange(e, index)} onBlur={(e) => handleBlur(e)} />
             </p>
         }
         

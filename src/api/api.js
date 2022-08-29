@@ -52,6 +52,7 @@ class API {
       })
       .catch(e => {
           console.log(e)
+          alert('Sorry. BitPay could not get the rates.')
       })
   }
       
@@ -66,6 +67,7 @@ class API {
       })
       .catch(e => {
           console.log(e)
+          alert('Sorry. BitPay could not get the rate for the choosen currency.')
       });
   
     return rate;
