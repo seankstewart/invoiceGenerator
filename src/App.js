@@ -1,33 +1,34 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import logo from './logo.svg';
 import './App.css';
+import './App.scss';
 
 
 const defaultData = [
-  // {
-  //   merchant: 'ShirtTown',
-  //   item: 'T-shirts',
-  //   amountCypto: 1.43219876,
-  //   currentcy: 'BTC',
-  //   priceCypto: 9285.93,
-  //   amountUSD: 13299.30
-  // },
-  // {
-  //   merchant: 'CrazyCups',
-  //   item: 'Cups',
-  //   amountCypto: 2.76236751,
-  //   currentcy: 'BCH',
-  //   priceCypto: 6483.69,
-  //   amountUSD: 17910.33
-  // },
-  // {
-  //   merchant: 'GimmeGold',
-  //   item: 'Gold bullion',
-  //   amountCypto: 10.78654328,
-  //   currentcy: 'ETH',
-  //   priceCypto: 442.08,
-  //   amountUSD: 4768.52
-  // }
+  {
+    merchant: 'ShirtTown',
+    item: 'T-shirts',
+    amountCypto: 1.43219876,
+    currentcy: 'BTC',
+    priceCypto: 9285.93,
+    amountUSD: 13299.30
+  },
+  {
+    merchant: 'CrazyCups',
+    item: 'Cups',
+    amountCypto: 2.76236751,
+    currentcy: 'BCH',
+    priceCypto: 6483.69,
+    amountUSD: 17910.33
+  },
+  {
+    merchant: 'GimmeGold',
+    item: 'Gold bullion',
+    amountCypto: 10.78654328,
+    currentcy: 'ETH',
+    priceCypto: 442.08,
+    amountUSD: 4768.52
+  }
 ]
 
 
@@ -92,7 +93,7 @@ const Table = ({rates, isUpdated, handleEdit, handleDelete}) => {
   return (
     <>
       <div>Updated: {(isUpdated === true) ? 'true' : 'false'}</div>
-      <table cellPadding="0" cellSpacing="0" border="1" style={(isUpdated === false) ? {...styles, backgroundColor: 'red'} : {...styles, backgroundColor: 'pink'}}>
+      <table className={`table-form`} cellPadding="0" cellSpacing="0" border="1" style={(isUpdated === false) ? {...styles, backgroundColor: 'red'} : {...styles, backgroundColor: 'pink'}}>
         <thead>
           <tr>
             <th>Merchant</th>
