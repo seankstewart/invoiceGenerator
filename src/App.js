@@ -93,9 +93,34 @@ const App = () => {
       rateToUSD();
     // }
 
-    setState({...state, index: state.index});
+    // setState({...state, model: [{...state.model[state.index], [event.target.name]: event.target.value}]})
+    // setState({...state, model: state.model.splice(state.index,1,{...state.model[state.index], [event.target.name]: event.target.value})})
+    setState({...state, model: state.model});
+    // setState({...state, index: state.index});
     
   }
+  // const handleChange = async (event) => {
+  //   console.log(event.target);
+  //   debugger;
+  //   switch(event.target.name) {
+  //     case 'merchant':
+  //       setState({...state, model: [...state.model]});
+  //       break;
+  //     case 'item':
+  //       setState({...state, model: [...state.model]});
+  //       break;
+  //     case 'currency':
+  //       setState({...state, model: [...state.model]});
+  //       break;
+  //     case 'amountCypto':
+  //       if (new RegExp("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$").test(event.target.value) && event.target.value.length <= 10) {
+  //         setState({...state, model: [...state.model]});
+  //       }
+  //       break;
+  //     default:
+  //       setState({...state})   
+  //   }
+  // }
 
   return (
     <div className="App">
