@@ -48,7 +48,7 @@ const getRatesToUSD = async (currencyType) => {
 }
 
 const formatUSD = (value) => {
-  return `$${parseFloat(value).toFixed(2)}`;
+  return `$${parseFloat(value).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
 
 const formatCrypto = (value) => {
