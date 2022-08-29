@@ -1,41 +1,39 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import logo from './logo.svg';
+import React, { createContext, useEffect, useState } from 'react'
+import './reset.css';
 import './App.css';
 import './App.scss';
 
+import EditButton from './components/EditButton';
+import DeleteButton from './components/DeleteButton';
+import AddButton from './components/AddButton';
+
 
 const defaultData = [
-  {
-    merchant: 'ShirtTown',
-    item: 'T-shirts',
-    amountCypto: 1.43219876,
-    currentcy: 'BTC',
-    priceCypto: 9285.93,
-    amountUSD: 13299.30
-  },
-  {
-    merchant: 'CrazyCups',
-    item: 'Cups',
-    amountCypto: 2.76236751,
-    currentcy: 'BCH',
-    priceCypto: 6483.69,
-    amountUSD: 17910.33
-  },
-  {
-    merchant: 'GimmeGold',
-    item: 'Gold bullion',
-    amountCypto: 10.78654328,
-    currentcy: 'ETH',
-    priceCypto: 442.08,
-    amountUSD: 4768.52
-  }
+  // {
+  //   merchant: 'ShirtTown',
+  //   item: 'T-shirts',
+  //   amountCypto: 1.43219876,
+  //   currentcy: 'BTC',
+  //   priceCypto: 9285.93,
+  //   amountUSD: 13299.30
+  // },
+  // {
+  //   merchant: 'CrazyCups',
+  //   item: 'Cups',
+  //   amountCypto: 2.76236751,
+  //   currentcy: 'BCH',
+  //   priceCypto: 6483.69,
+  //   amountUSD: 17910.33
+  // },
+  // {
+  //   merchant: 'GimmeGold',
+  //   item: 'Gold bullion',
+  //   amountCypto: 10.78654328,
+  //   currentcy: 'ETH',
+  //   priceCypto: 442.08,
+  //   amountUSD: 4768.52
+  // }
 ]
-
-const defaultState = {
-  mode: 'read',
-  isPending: true,
-  model: defaultData
-}
 
 
 const getRatesToUSD = async (currencyType) => {
@@ -54,146 +52,25 @@ const getRatesToUSD = async (currencyType) => {
 }
 
 const formatUSD = (value) => {
+
+  if (isNaN(parseFloat(value))) {
+    value = 0;
+  }
+
   return `$${parseFloat(value).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
 
 const formatCrypto = (value) => {
+  if (isNaN(parseFloat(value))) {
+    return
+  }
   return parseFloat(value).toFixed(8);
 }
 
-
-const Button = ({event, task, label}) => {
-  return <button onClick={task}>{label}</button>
+Number.prototype.countDecimals = function() {
+  if (Math.floor(this.valueOf()) === this.valueOf()) return 0;
+  return this.toString().split(".")[1].length || 0; 
 }
-
-
-
-const AddButton = ({action}) => {
-  
-  const handleAdd = useCallback((e) => {
-    e.preventDefault();
-    // clearInterval(interval);
-    console.log('add item');
-    // renderForm({});
-    // setUpdated(u => !u);
-  },[])
-
-  return (
-    <Button task={handleAdd} label="Add" />
-  )
-}
-
-const EditButton = ({action}) => {
-  
-  const handleEdit = useCallback((e) => {
-    e.preventDefault();
-    // clearInterval(interval);
-    console.log('edit item');
-    // renderForm({});
-    // setUpdated(u => !u);
-  },[])
-
-  return (
-    <Button task={handleEdit} label="Edit" />
-  )
-}
-
-const DeleteButton = ({action}) => {
-  
-  const handleDelete = useCallback((e) => {
-    e.preventDefault();
-    // clearInterval(interval);
-    console.log('delete item');
-    // renderForm({});
-    // setUpdated(u => !u);
-  },[])
-  
-  return (
-    <Button task={handleDelete} label="Delete" />
-  )
-}
-
-
-// const useInterval = () => {
-//   const [updated, setUpdated] = useState(true);
-
-//   // useEffect(() => {
-//     const interval = useCallback(setInterval(() => {
-//       console.log(updated)
-//       setUpdated(u => !u);
-//       console.log('This will be called every 2 minutes');
-//     }, 5000),[])
-    
-//     console.log([updated, interval])
-
-//     return [updated, interval]
-//     // }, 5000);
-
-//     // return () => clearInterval(interval);
-    
-//   // }, [updated]);
-// }
-
-// const Table = ({rates, displayForm, isUpdated, handleAdd, handleEdit, handleDelete}) => {
-
-//   // const [isUpdated, intervalIsOn] = useInterval();
-//   const styles = {
-//     margin:'auto'
-//   }
-
-//   return (
-//     <>
-//       <div>Updated: {(isUpdated === true) ? 'true' : 'false'}</div>
-//       <table cellPadding="0" cellSpacing="0" border="1" style={(isUpdated === false) ? {...styles, backgroundColor: 'red'} : {...styles, backgroundColor: 'pink'}}>
-//         <thead>
-//           <tr>
-//             <th><input type="checkbox" disabled="disabled" /></th>
-//             <th>Merchant</th>
-//             <th>Item</th>
-//             <th>Amount (Crypto)</th>
-//             <th>Currency</th>
-//             <th>Price/crypto (USD)</th>
-//             <th>Amount (USD)</th>
-//             {/* <th>Actions</th> */}
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {defaultData.map((data, index) => {
-//             return (
-//               <tr key={`tableRow${index}`}>
-//                 <td>
-//                   <input type="checkbox" onClick={(e) => handleEdit(index)} />
-//                 </td>
-//                 <td>{data.merchant}</td>
-//                 <td>{data.item}</td>
-//                 <td>{formatCrypto(data.amountCypto)}</td>
-//                 <td>{data.currentcy}</td>
-//                 <td>{formatUSD(data.priceCypto)}</td>
-//                 <td>{formatUSD(data.amountUSD)}</td>
-//                 {/* <td>
-//                   <button onClick={(e) => handleEdit(index)}>Edit</button>
-//                   <button onClick={(e) => handleDelete(index)}>Delete</button>
-//                 </td> */}
-//               </tr>
-//             )
-//           })}
-//         </tbody>
-//         <tfoot>
-//           <tr>
-//             <td colSpan="7" align="left">
-//               <AddButton handleAdd={handleAdd} />
-//               <Button task={(e) => handleEdit(displayForm.index)} label="Edit" />
-//               <Button task={(e) => handleDelete(displayForm.index)} label="Delete" />
-//               {/* <button onClick={(e) => handleEdit(0)}>Edit</button>
-//               <button onClick={(e) => handleDelete(0)}>Delete</button> */}
-//             </td>
-//           </tr>
-//         </tfoot>
-//       </table>
-//     </>
-//   )
-// }
-
 
 async function sleep(fn, par) {
   return await setTimeout(async function() {
@@ -201,30 +78,33 @@ async function sleep(fn, par) {
   }, 1000, fn, par);
 }
 
-
+export const AppContext = createContext();
 
 function App() {
   console.log('loading App')
 
 
-  const [state, setState] = useState(defaultState);
+  const [state, setState] = useState({
+    mode: 'read',
+    isPending: true,
+    model: defaultData
+  });
 
-  const [isPending, setIsPending] = useState(true);
+  
   const [rates, setRates] = useState([]);
   const [updated, setUpdated] = useState(true);
-  const [displayForm, setDisplayForm] = useState(false);
 
   let interval = null;
 
   const getRates = async () => {
-    setIsPending(true);
+    // setIsPending(true);
     // await fetch('https://bitpay.com/api/rates')
     await fetch('./rates.json')
       .then(response => response.json())
       .then(json => {
           setRates(json);
-          setUpdated(u => !u);
-          setIsPending(false);
+          // setUpdated(u => !u);
+          // setIsPending(false);
           setState({...state, isPending: false})
       })
       .catch(e => {
@@ -236,93 +116,55 @@ function App() {
 
     const getAppData = async () => {
       await getRates();
-      await sleep(() => setIsPending(false));
+      await sleep(() => setState({...state, isPending: false}));
     }
 
     getAppData();
   
   }, []);
 
-  // useEffect(() => {
-  //   if (displayForm === false) {
-  //     interval = setInterval(getRates, 5000);
-  //   }
+  
 
-  //   return () => clearInterval(interval);
-  // }, [updated, displayForm])
 
-  // const renderForm = (values) => {
-  //   console.log('render the form to add and/or edit table items');
-  //   setDisplayForm(true);
-  // }
+  const handleCheckbox = (e, index) => {
 
-  // const handleEdit = useCallback((index) => {
-  //   clearInterval(interval);
-  //   console.log(`edit item at index: ${index}`);
+    console.log(e);
+
+    if (e.target.checked === true || e.type === 'blur') {
+      let rateToUSD = async () => await getRatesToUSD(state.model[state.index].currentcy).then((res) => {
+        state.model[state.index].priceCypto = res;
+        state.model[state.index].amountUSD = res * parseFloat(state.model[state.index].amountCypto)
+        setState({...state, mode: 'edit', index: (e.type === 'blur') ? state.index : index})
+      });
     
-  //   setDisplayForm({
-  //     index: index,
-  //     valueMerchant: defaultData[index].merchant,
-  //     valueItem: defaultData[index].item,
-  //     valueAmountCypto: defaultData[index].amountCypto,
-  //     valueCurrency: defaultData[index].currentcy,
-  //     // valuePriceUSD: defaultData[index].priceCypto,
-  //     // amountUSD: 3
-  //   });
-  //   // setUpdated(u => !u);
-  // },[])
-
-  // const handleAdd = useCallback(() => {
-  //   clearInterval(interval);
-  //   console.log('add item');
-  //   renderForm({});
-  //   setUpdated(u => !u);
-  // },[])
-
-  // const handleDelete = useCallback((index) => {
-  //   console.log(`delete item at index: ${index}`);
-  //   defaultData.splice(index, 1);
-  //   setUpdated(u => !u);
-  // },[])
-
-  const handleCheckbox = useCallback((e, index) => {
-    if (e.target.checked === true) {
-      setState(state => {
-        return {...state, mode: 'edit', index: index}
-      })
+      rateToUSD();
+      setState({...state, mode: 'edit', index: (e.type === 'blur') ? state.index : index})
     } else {
-      setState(state => {
-        return {...state, mode: 'read'}
-      })
+      setState({...state, mode: 'read'})
     }
-  }, []);
+  };
 
-  const handleChange = useCallback((event) => {
+  const handleChange = (event) => {
     console.log(event.target);
+    // console.log(parseFloat(event.target.value).slice(event.target.value.indexOf('.')*-1))
+    
     switch(event.target.name) {
-      case 'merchant':
-        const [merchant, ...rest] = [event.target.value, state.model]
-        // console.log(state)
-        // console.log({...state, model: {state.model, merchant: event.target.value}})
-        // console.log(state)
-        // debugger;
-        setState({...state, model: [merchant, ...rest]});
-        break;
-      case 'item':
-        setState({...state, model: {...state.model, item: event.target.value}});
-        break;
-      case 'currency':
-        setState({...state, model: {...state.model, currency: event.target.value}});
-        break;
       case 'amountCypto':
-        if (new RegExp("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$").test(event.target.value) && event.target.value.length <= 10) {
-          setState({...state, model: {...state.model, amountCypto: event.target.value}});
+        console.log('amountCypto hasChnaged');
+        console.log(new RegExp("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$").test(event.target.value))
+        console.log(parseFloat(event.target.value).countDecimals())
+        debugger;
+        if (new RegExp("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$").test(event.target.value) && parseFloat(event.target.value).countDecimals() <= 10) {
+          [...state.model][state.index][event.target.id] = event.target.value;
         }
         break;
       default:
-        setState({...state})   
+        [...state.model][state.index][event.target.id] = event.target.value;
     }
-  },[])
+
+    setState({...state, index: state.index});
+    
+  }
 
   return (
     <div className="App">
@@ -331,7 +173,7 @@ function App() {
       </header>
       {(state.isPending === true) ? 'Getting Current Rates...' 
         : 
-        <>
+        <AppContext.Provider value={{state, setState, getRatesToUSD}}>
           {/* <Form rates={rates} setDisplayForm={setDisplayForm} displayForm={displayForm} setUpdated={setUpdated} handleEdit={handleEdit}>
             <Table rates={rates} displayForm={displayForm} isUpdated={updated} handleAdd={handleAdd} handleEdit={handleEdit} handleDelete={handleDelete} />
           </Form> */}
@@ -349,7 +191,7 @@ function App() {
                   <th className={`td-amountCrypto`}>Amount (Crypto)</th>
                   <th className={`td-currency`}>Currency</th>
                   <th className={`td-price-USD`}>Price/crypto (USD)</th>
-                  <th className={`td-price-USD`}>Amount (USD)</th>
+                  <th className={`td-amount-USD`}>Amount (USD)</th>
                   {/* <th>Actions</th> */}
                 </tr>
               </thead>
@@ -358,7 +200,7 @@ function App() {
                   return (
                     <tr key={`tableRow${index}`}>
                       <td>
-                        <input type="checkbox" onClick={(event) => handleCheckbox(event, index)} />
+                        <input type="checkbox" checked={(state.mode === 'read' || state.index !== index) ? false : true} onChange={(event) => handleCheckbox(event, index)} />
                       </td>
                       <td>
                         {(state.mode === 'read' || state.index !== index) ?
@@ -386,7 +228,7 @@ function App() {
                         :
                           <p>
                             <label htmlFor="amountCypto">Amount (Cypto)</label>
-                            <input type="text" value={data.amountCypto} id="amountCypto" name="amountCypto" tabIndex="0" onChange={handleChange} />
+                            <input type="text" value={data.amountCypto} id="amountCypto" name="amountCypto" tabIndex="0" onChange={handleChange} onBlur={handleCheckbox} />
                           </p>
                         }
                       </td>
@@ -396,7 +238,7 @@ function App() {
                         :
                           <p>
                             <label htmlFor="currency">Currency</label>
-                            <select value={data.currentcy} id="currency" name="currency" tabIndex="0" onChange={handleChange}>
+                            <select value={data.currentcy} id="currentcy" name="currency" tabIndex="0" onChange={handleChange} onBlur={handleCheckbox}>
                               <option value="0"></option>
                               {
                                 rates.map(r => <option key={r.code} value={r.code}>{r.code}</option>)
@@ -420,9 +262,9 @@ function App() {
               <tfoot>
                 <tr>
                   <td colSpan="7" align="left">
-                    <AddButton />
-                    <EditButton />
-                    <DeleteButton />
+                    <AddButton>Add</AddButton>
+                    <EditButton>Save</EditButton>
+                    <DeleteButton>Delete</DeleteButton>
                     {/* <Button task={(e) => handleEdit(displayForm.index)} label="Edit" />
                     <Button task={(e) => handleDelete(displayForm.index)} label="Delete" /> */}
                     {/* <button onClick={(e) => handleEdit(0)}>Edit</button>
@@ -438,141 +280,11 @@ function App() {
           {/* <Table rates={rates} displayForm={displayForm} isUpdated={updated} handleAdd={handleAdd} handleEdit={handleEdit} handleDelete={handleDelete} />
           <Form rates={rates} setDisplayForm={setDisplayForm} displayForm={displayForm} setUpdated={setUpdated} handleEdit={handleEdit} /> */}
           {/* <Rates rates={rates} isUpdated={updated} /> */}
-        </>
+        </AppContext.Provider>
       }
       {/* {(isPending === true) ? 'Getting Current Rates...' : <><Table isUpdated={updated} /></>} */}
     </div>
   );
-}
-
-
-const Rates = ({rates, isUpdated}) => {
-  return (
-    <>
-      Number of Rates in response: {rates.length}
-      <table>
-        <tbody>
-          {rates.map((rate, i) => {
-            return (
-              <tr key={`rate.code${i}`}>
-                <td>{rate.code}</td>
-                <td>{parseFloat(rate.rate).toFixed(8)}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    </>
-  )
-}
-
-
-
-const Form = ({children, rates, setDisplayForm, displayForm, setUpdated}) => {
-
-  console.log(children);
-  debugger;
-
-  const emptyValues = {index: '', valueMerchant: '', valueItem: '', valueCurrency: "0", valueAmountCypto: ''};
-  const [formState, setFormState] = useState(emptyValues);
-
-  useEffect(() => {
-    if (typeof displayForm !== "boolean") {
-      setFormState(displayForm);
-    }
-  }, [displayForm, setUpdated])
-
-  const handleChange = async (event) => {
-    console.log(event.target);
-    switch(event.target.name) {
-      case 'merchant':
-        setFormState({...formState, valueMerchant: event.target.value});
-        break;
-      case 'item':
-        setFormState({...formState, valueItem: event.target.value});
-        break;
-      case 'currency':
-        setFormState({...formState, valueCurrency: event.target.value});
-        break;
-      case 'amountCypto':
-        if (new RegExp("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$").test(event.target.value) && event.target.value.length <= 10) {
-          setFormState({...formState, valueAmountCypto: event.target.value});
-        }
-        break;
-      default:
-        setFormState({...formState})   
-    }
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    console.log('handle form submit');
-    console.log(formState);
-    
-    const rateToUSD = await getRatesToUSD(formState.valueCurrency);
-    
-    const formValues = {
-      merchant: formState.valueMerchant,
-      item: formState.valueItem,
-      amountCypto: formState.valueAmountCypto,
-      currentcy: formState.valueCurrency,
-      priceCypto: rateToUSD,
-      amountUSD: rateToUSD * parseFloat(formState.valueAmountCypto)
-    }
-
-    if (rateToUSD) {
-      if (typeof displayForm !== "boolean") {
-        defaultData.splice(formState.index, 1, formValues);
-      } else {
-        defaultData.push(formValues);
-      }
-      setFormState(emptyValues);
-      setDisplayForm(false);
-    }
-  }
-
-  
-  // if (displayForm !== false) {
-    return (
-      <div>
-        {children}
-        <form onSubmit={handleSubmit}> 
-          <p style={{visibility:'hidden'}}>
-            <label htmlFor="index">Index</label>
-            <input type="hidden" value={formState.index} id="index" name="index" tabIndex="-1" />
-          </p>
-          <p>
-            <label htmlFor="merchant">Merchant</label>
-            <input type="text" value={formState.valueMerchant} id="merchant" name="merchant" placeHolder="Merchant" tabIndex="0" onChange={handleChange} />
-          </p>
-          <p>
-            <label htmlFor="item">Item</label>
-            <input type="text" value={formState.valueItem} id="item" name="item" placeHolder="Item" tabIndex="0" onChange={handleChange} />
-          </p>
-          <p>
-            <label htmlFor="amountCypto">Amount (Cypto)</label>
-            <input type="text" value={formState.valueAmountCypto} id="amountCypto" name="amountCypto" placeHolder="Amount (Crypto)" tabIndex="0" onChange={handleChange} />
-          </p>
-          <p>
-            <label htmlFor="currency">Currency</label>
-            <select value={formState.valueCurrency} id="currency" name="currency" tabIndex="0" onChange={handleChange}>
-              <option value="0" disabled="disabled">Currency</option>
-              {
-                rates.map(r => <option key={r.code} value={r.code}>{r.code}</option>)
-              }
-              {/* <option value="BTC">BTC</option>
-              <option value="BCH">BCH</option>
-              <option value="ETH">ETH</option> */}
-              {/* <option value="USD">USD</option> */}
-            </select>
-          </p>
-          <p><input type="submit" value="Submit" tabIndex="0" /></p>
-        </form>
-      </div>
-    )
-    // } else {
-    //   return null;
-    // }
 }
 
 export default App;
