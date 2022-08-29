@@ -1,0 +1,66 @@
+.table-form {
+    box-sizing: border-box;
+    border: 4px solid blue;
+    font-size: 0.75rem;
+
+    th, td {
+        position: relative;
+        text-align: left;
+        padding-top: 0.2rem;
+        padding-right: 0.25rem;
+        padding-bottom: 0.2rem;
+        padding-left: 0.25rem;
+    }
+
+    tfoot {
+        button {
+            margin-top: 0.2rem;
+            margin-right: 0.25rem;
+            margin-bottom: 0.2rem;
+            margin-left: 0.25rem;
+        }
+    }
+
+    p {
+       margin: 0;
+    }
+
+    label {
+        display: none;
+        position: absolute;
+        margin-top: 0.2rem;
+        margin-left: 0.25rem;
+        font-size: 0.75rem;
+        color: #CCCCCC;
+    }
+
+    input {
+        // width: 90%;
+        // padding: 0;
+        // margin: 0;
+    }
+
+    select {
+        padding-top: 0.125rem;
+        padding-bottom: 0.125rem;
+    }
+
+    .td-actions{
+        width: 5%;
+    }
+    .td-merchant{
+        width: 40%;
+    }
+    .td-item{
+        width: 20%;
+    }
+    .td-amountCrypto {
+        width: 5%;
+    }
+    .td-currency {
+        width: 15%;
+    }
+    .td-price-USD {
+        width: 15%;
+    }
+}

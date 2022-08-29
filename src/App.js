@@ -1,34 +1,41 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import logo from './logo.svg';
 import './App.css';
+import './App.scss';
 
 
 const defaultData = [
-  // {
-  //   merchant: 'ShirtTown',
-  //   item: 'T-shirts',
-  //   amountCypto: 1.43219876,
-  //   currentcy: 'BTC',
-  //   priceCypto: 9285.93,
-  //   amountUSD: 13299.30
-  // },
-  // {
-  //   merchant: 'CrazyCups',
-  //   item: 'Cups',
-  //   amountCypto: 2.76236751,
-  //   currentcy: 'BCH',
-  //   priceCypto: 6483.69,
-  //   amountUSD: 17910.33
-  // },
-  // {
-  //   merchant: 'GimmeGold',
-  //   item: 'Gold bullion',
-  //   amountCypto: 10.78654328,
-  //   currentcy: 'ETH',
-  //   priceCypto: 442.08,
-  //   amountUSD: 4768.52
-  // }
+  {
+    merchant: 'ShirtTown',
+    item: 'T-shirts',
+    amountCypto: 1.43219876,
+    currentcy: 'BTC',
+    priceCypto: 9285.93,
+    amountUSD: 13299.30
+  },
+  {
+    merchant: 'CrazyCups',
+    item: 'Cups',
+    amountCypto: 2.76236751,
+    currentcy: 'BCH',
+    priceCypto: 6483.69,
+    amountUSD: 17910.33
+  },
+  {
+    merchant: 'GimmeGold',
+    item: 'Gold bullion',
+    amountCypto: 10.78654328,
+    currentcy: 'ETH',
+    priceCypto: 442.08,
+    amountUSD: 4768.52
+  }
 ]
+
+const defaultState = {
+  mode: 'read',
+  isPending: true,
+  model: defaultData
+}
 
 
 const getRatesToUSD = async (currencyType) => {
@@ -47,7 +54,7 @@ const getRatesToUSD = async (currencyType) => {
 }
 
 const formatUSD = (value) => {
-  return `$${parseFloat(value).toFixed(2)}`;
+  return `$${parseFloat(value).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
 }
 
 const formatCrypto = (value) => {
@@ -55,9 +62,54 @@ const formatCrypto = (value) => {
 }
 
 
-const AddButton = ({handleAdd}) => {
+const Button = ({event, task, label}) => {
+  return <button onClick={task}>{label}</button>
+}
+
+
+
+const AddButton = ({action}) => {
+  
+  const handleAdd = useCallback((e) => {
+    e.preventDefault();
+    // clearInterval(interval);
+    console.log('add item');
+    // renderForm({});
+    // setUpdated(u => !u);
+  },[])
+
   return (
-    <button onClick={handleAdd}>Add</button>
+    <Button task={handleAdd} label="Add" />
+  )
+}
+
+const EditButton = ({action}) => {
+  
+  const handleEdit = useCallback((e) => {
+    e.preventDefault();
+    // clearInterval(interval);
+    console.log('edit item');
+    // renderForm({});
+    // setUpdated(u => !u);
+  },[])
+
+  return (
+    <Button task={handleEdit} label="Edit" />
+  )
+}
+
+const DeleteButton = ({action}) => {
+  
+  const handleDelete = useCallback((e) => {
+    e.preventDefault();
+    // clearInterval(interval);
+    console.log('delete item');
+    // renderForm({});
+    // setUpdated(u => !u);
+  },[])
+  
+  return (
+    <Button task={handleDelete} label="Delete" />
   )
 }
 
@@ -82,63 +134,65 @@ const AddButton = ({handleAdd}) => {
 //   // }, [updated]);
 // }
 
-const Table = ({rates, isUpdated, handleAdd, handleEdit, handleDelete}) => {
+// const Table = ({rates, displayForm, isUpdated, handleAdd, handleEdit, handleDelete}) => {
 
-  // const [isUpdated, intervalIsOn] = useInterval();
-  const styles = {
-    margin:'auto'
-  }
+//   // const [isUpdated, intervalIsOn] = useInterval();
+//   const styles = {
+//     margin:'auto'
+//   }
 
-  return (
-    <>
-      <div>Updated: {(isUpdated === true) ? 'true' : 'false'}</div>
-      <table cellPadding="0" cellSpacing="0" border="1" style={(isUpdated === false) ? {...styles, backgroundColor: 'red'} : {...styles, backgroundColor: 'pink'}}>
-        <thead>
-          <tr>
-            <th><input type="checkbox" disabled="disabled" /></th>
-            <th>Merchant</th>
-            <th>Item</th>
-            <th>Amount (Crypto)</th>
-            <th>Currency</th>
-            <th>Price/crypto (USD)</th>
-            <th>Amount (USD)</th>
-            {/* <th>Actions</th> */}
-          </tr>
-        </thead>
-        <tbody>
-          {defaultData.map((data, index) => {
-            return (
-              <tr key={`tableRow${index}`}>
-                <td>
-                  <input type="checkbox" onClick={(e) => handleEdit(index)} />
-                </td>
-                <td>{data.merchant}</td>
-                <td>{data.item}</td>
-                <td>{formatCrypto(data.amountCypto)}</td>
-                <td>{data.currentcy}</td>
-                <td>{formatUSD(data.priceCypto)}</td>
-                <td>{formatUSD(data.amountUSD)}</td>
-                {/* <td>
-                  <button onClick={(e) => handleEdit(index)}>Edit</button>
-                  <button onClick={(e) => handleDelete(index)}>Delete</button>
-                </td> */}
-              </tr>
-            )
-          })}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan="7" align="left">
-              <AddButton handleAdd={handleAdd} />
-              <button onClick={(e) => handleEdit(0)}>Edit</button>
-              <button onClick={(e) => handleDelete(0)}>Delete</button>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
-    </>
-  )
-}
+//   return (
+//     <>
+//       <div>Updated: {(isUpdated === true) ? 'true' : 'false'}</div>
+//       <table cellPadding="0" cellSpacing="0" border="1" style={(isUpdated === false) ? {...styles, backgroundColor: 'red'} : {...styles, backgroundColor: 'pink'}}>
+//         <thead>
+//           <tr>
+//             <th><input type="checkbox" disabled="disabled" /></th>
+//             <th>Merchant</th>
+//             <th>Item</th>
+//             <th>Amount (Crypto)</th>
+//             <th>Currency</th>
+//             <th>Price/crypto (USD)</th>
+//             <th>Amount (USD)</th>
+//             {/* <th>Actions</th> */}
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {defaultData.map((data, index) => {
+//             return (
+//               <tr key={`tableRow${index}`}>
+//                 <td>
+//                   <input type="checkbox" onClick={(e) => handleEdit(index)} />
+//                 </td>
+//                 <td>{data.merchant}</td>
+//                 <td>{data.item}</td>
+//                 <td>{formatCrypto(data.amountCypto)}</td>
+//                 <td>{data.currentcy}</td>
+//                 <td>{formatUSD(data.priceCypto)}</td>
+//                 <td>{formatUSD(data.amountUSD)}</td>
+//                 {/* <td>
+//                   <button onClick={(e) => handleEdit(index)}>Edit</button>
+//                   <button onClick={(e) => handleDelete(index)}>Delete</button>
+//                 </td> */}
+//               </tr>
+//             )
+//           })}
+//         </tbody>
+//         <tfoot>
+//           <tr>
+//             <td colSpan="7" align="left">
+//               <AddButton handleAdd={handleAdd} />
+//               <Button task={(e) => handleEdit(displayForm.index)} label="Edit" />
+//               <Button task={(e) => handleDelete(displayForm.index)} label="Delete" />
+//               {/* <button onClick={(e) => handleEdit(0)}>Edit</button>
+//               <button onClick={(e) => handleDelete(0)}>Delete</button> */}
+//             </td>
+//           </tr>
+//         </tfoot>
+//       </table>
+//     </>
+//   )
+// }
 
 
 async function sleep(fn, par) {
@@ -151,6 +205,9 @@ async function sleep(fn, par) {
 
 function App() {
   console.log('loading App')
+
+
+  const [state, setState] = useState(defaultState);
 
   const [isPending, setIsPending] = useState(true);
   const [rates, setRates] = useState([]);
@@ -168,6 +225,7 @@ function App() {
           setRates(json);
           setUpdated(u => !u);
           setIsPending(false);
+          setState({...state, isPending: false})
       })
       .catch(e => {
           console.log(e)
@@ -185,46 +243,85 @@ function App() {
   
   }, []);
 
-  useEffect(() => {
-    if (displayForm === false) {
-      interval = setInterval(getRates, 5000);
-    }
+  // useEffect(() => {
+  //   if (displayForm === false) {
+  //     interval = setInterval(getRates, 5000);
+  //   }
 
-    return () => clearInterval(interval);
-  }, [updated, displayForm])
+  //   return () => clearInterval(interval);
+  // }, [updated, displayForm])
 
-  const renderForm = (values) => {
-    console.log('render the form to add and/or edit table items');
-    setDisplayForm(true);
-  }
+  // const renderForm = (values) => {
+  //   console.log('render the form to add and/or edit table items');
+  //   setDisplayForm(true);
+  // }
 
-  const handleEdit = useCallback((index) => {
-    clearInterval(interval);
-    console.log(`edit item at index: ${index}`);
+  // const handleEdit = useCallback((index) => {
+  //   clearInterval(interval);
+  //   console.log(`edit item at index: ${index}`);
     
-    setDisplayForm({
-      index: index,
-      valueMerchant: defaultData[index].merchant,
-      valueItem: defaultData[index].item,
-      valueAmountCypto: defaultData[index].amountCypto,
-      valueCurrency: defaultData[index].currentcy,
-      // valuePriceUSD: defaultData[index].priceCypto,
-      // amountUSD: 3
-    });
-    // setUpdated(u => !u);
-  },[])
+  //   setDisplayForm({
+  //     index: index,
+  //     valueMerchant: defaultData[index].merchant,
+  //     valueItem: defaultData[index].item,
+  //     valueAmountCypto: defaultData[index].amountCypto,
+  //     valueCurrency: defaultData[index].currentcy,
+  //     // valuePriceUSD: defaultData[index].priceCypto,
+  //     // amountUSD: 3
+  //   });
+  //   // setUpdated(u => !u);
+  // },[])
 
-  const handleAdd = useCallback(() => {
-    clearInterval(interval);
-    console.log('add item');
-    renderForm({});
-    setUpdated(u => !u);
-  },[])
+  // const handleAdd = useCallback(() => {
+  //   clearInterval(interval);
+  //   console.log('add item');
+  //   renderForm({});
+  //   setUpdated(u => !u);
+  // },[])
 
-  const handleDelete = useCallback((index) => {
-    console.log(`delete item at index: ${index}`);
-    defaultData.splice(index, 1);
-    setUpdated(u => !u);
+  // const handleDelete = useCallback((index) => {
+  //   console.log(`delete item at index: ${index}`);
+  //   defaultData.splice(index, 1);
+  //   setUpdated(u => !u);
+  // },[])
+
+  const handleCheckbox = useCallback((e, index) => {
+    if (e.target.checked === true) {
+      setState(state => {
+        return {...state, mode: 'edit', index: index}
+      })
+    } else {
+      setState(state => {
+        return {...state, mode: 'read'}
+      })
+    }
+  }, []);
+
+  const handleChange = useCallback((event) => {
+    console.log(event.target);
+    switch(event.target.name) {
+      case 'merchant':
+        const [merchant, ...rest] = [event.target.value, state.model]
+        // console.log(state)
+        // console.log({...state, model: {state.model, merchant: event.target.value}})
+        // console.log(state)
+        // debugger;
+        setState({...state, model: [merchant, ...rest]});
+        break;
+      case 'item':
+        setState({...state, model: {...state.model, item: event.target.value}});
+        break;
+      case 'currency':
+        setState({...state, model: {...state.model, currency: event.target.value}});
+        break;
+      case 'amountCypto':
+        if (new RegExp("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$").test(event.target.value) && event.target.value.length <= 10) {
+          setState({...state, model: {...state.model, amountCypto: event.target.value}});
+        }
+        break;
+      default:
+        setState({...state})   
+    }
   },[])
 
   return (
@@ -232,12 +329,115 @@ function App() {
       <header className="App-header">
         BitPay
       </header>
-      {(isPending === true) ? 'Getting Current Rates...' 
+      {(state.isPending === true) ? 'Getting Current Rates...' 
         : 
         <>
-          <Table rates={rates} isUpdated={updated} handleAdd={handleAdd} handleEdit={handleEdit} handleDelete={handleDelete} />
-          <Form rates={rates} setDisplayForm={setDisplayForm} displayForm={displayForm} setUpdated={setUpdated} handleEdit={handleEdit} />
-          <Rates rates={rates} isUpdated={updated} />
+          {/* <Form rates={rates} setDisplayForm={setDisplayForm} displayForm={displayForm} setUpdated={setUpdated} handleEdit={handleEdit}>
+            <Table rates={rates} displayForm={displayForm} isUpdated={updated} handleAdd={handleAdd} handleEdit={handleEdit} handleDelete={handleDelete} />
+          </Form> */}
+
+
+
+          <form className="table-form"> 
+          
+            <table cellPadding="0" cellSpacing="0" border="1">
+              <thead>
+                <tr>
+                  <th className={`td-actions`}><input type="checkbox" disabled="disabled" /></th>
+                  <th className={`td-merchant`}>Merchant</th>
+                  <th className={`td-item`}>Item</th>
+                  <th className={`td-amountCrypto`}>Amount (Crypto)</th>
+                  <th className={`td-currency`}>Currency</th>
+                  <th className={`td-price-USD`}>Price/crypto (USD)</th>
+                  <th className={`td-price-USD`}>Amount (USD)</th>
+                  {/* <th>Actions</th> */}
+                </tr>
+              </thead>
+              <tbody>
+                {state.model.map((data, index) => {
+                  return (
+                    <tr key={`tableRow${index}`}>
+                      <td>
+                        <input type="checkbox" onClick={(event) => handleCheckbox(event, index)} />
+                      </td>
+                      <td>
+                        {(state.mode === 'read' || state.index !== index) ?
+                          data.merchant
+                        :
+                          <p>
+                            <label htmlFor="merchant">Merchant</label>
+                            <input type="text" value={data.merchant} id="merchant" name="merchant" tabIndex="0" onChange={handleChange} />
+                          </p>
+                        }
+                      </td>
+                      <td>
+                        {(state.mode === 'read' || state.index !== index) ?
+                          data.item
+                        :
+                          <p>
+                            <label htmlFor="item">Item</label>
+                            <input type="text" value={data.item} id="item" name="item" tabIndex="0" onChange={handleChange} />
+                          </p>
+                        }
+                      </td>
+                      <td>
+                        {(state.mode === 'read' || state.index !== index) ?
+                          formatCrypto(data.amountCypto)
+                        :
+                          <p>
+                            <label htmlFor="amountCypto">Amount (Cypto)</label>
+                            <input type="text" value={data.amountCypto} id="amountCypto" name="amountCypto" tabIndex="0" onChange={handleChange} />
+                          </p>
+                        }
+                      </td>
+                      <td>
+                        {(state.mode === 'read' || state.index !== index) ?
+                          data.currentcy
+                        :
+                          <p>
+                            <label htmlFor="currency">Currency</label>
+                            <select value={data.currentcy} id="currency" name="currency" tabIndex="0" onChange={handleChange}>
+                              <option value="0"></option>
+                              {
+                                rates.map(r => <option key={r.code} value={r.code}>{r.code}</option>)
+                              }
+                            </select>
+                          </p>
+                        }
+                      </td>
+                      <td>
+                        {formatUSD(data.priceCypto)}
+                      </td>
+                      <td>{formatUSD(data.amountUSD)}</td>
+                      {/* <td>
+                        <button onClick={(e) => handleEdit(index)}>Edit</button>
+                        <button onClick={(e) => handleDelete(index)}>Delete</button>
+                      </td> */}
+                    </tr>
+                  )
+                })}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan="7" align="left">
+                    <AddButton />
+                    <EditButton />
+                    <DeleteButton />
+                    {/* <Button task={(e) => handleEdit(displayForm.index)} label="Edit" />
+                    <Button task={(e) => handleDelete(displayForm.index)} label="Delete" /> */}
+                    {/* <button onClick={(e) => handleEdit(0)}>Edit</button>
+                    <button onClick={(e) => handleDelete(0)}>Delete</button> */}
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </form>
+
+
+
+          {/* <Table rates={rates} displayForm={displayForm} isUpdated={updated} handleAdd={handleAdd} handleEdit={handleEdit} handleDelete={handleDelete} />
+          <Form rates={rates} setDisplayForm={setDisplayForm} displayForm={displayForm} setUpdated={setUpdated} handleEdit={handleEdit} /> */}
+          {/* <Rates rates={rates} isUpdated={updated} /> */}
         </>
       }
       {/* {(isPending === true) ? 'Getting Current Rates...' : <><Table isUpdated={updated} /></>} */}
@@ -268,7 +468,10 @@ const Rates = ({rates, isUpdated}) => {
 
 
 
-const Form = ({rates, setDisplayForm, displayForm, setUpdated}) => {
+const Form = ({children, rates, setDisplayForm, displayForm, setUpdated}) => {
+
+  console.log(children);
+  debugger;
 
   const emptyValues = {index: '', valueMerchant: '', valueItem: '', valueCurrency: "0", valueAmountCypto: ''};
   const [formState, setFormState] = useState(emptyValues);
@@ -329,9 +532,10 @@ const Form = ({rates, setDisplayForm, displayForm, setUpdated}) => {
   }
 
   
-  if (displayForm !== false) {
+  // if (displayForm !== false) {
     return (
       <div>
+        {children}
         <form onSubmit={handleSubmit}> 
           <p style={{visibility:'hidden'}}>
             <label htmlFor="index">Index</label>
@@ -339,20 +543,20 @@ const Form = ({rates, setDisplayForm, displayForm, setUpdated}) => {
           </p>
           <p>
             <label htmlFor="merchant">Merchant</label>
-            <input type="text" value={formState.valueMerchant} id="merchant" name="merchant" tabIndex="0" onChange={handleChange} />
+            <input type="text" value={formState.valueMerchant} id="merchant" name="merchant" placeHolder="Merchant" tabIndex="0" onChange={handleChange} />
           </p>
           <p>
             <label htmlFor="item">Item</label>
-            <input type="text" value={formState.valueItem} id="item" name="item" tabIndex="0" onChange={handleChange} />
+            <input type="text" value={formState.valueItem} id="item" name="item" placeHolder="Item" tabIndex="0" onChange={handleChange} />
           </p>
           <p>
             <label htmlFor="amountCypto">Amount (Cypto)</label>
-            <input type="text" value={formState.valueAmountCypto} id="amountCypto" name="amountCypto" tabIndex="0" onChange={handleChange} />
+            <input type="text" value={formState.valueAmountCypto} id="amountCypto" name="amountCypto" placeHolder="Amount (Crypto)" tabIndex="0" onChange={handleChange} />
           </p>
           <p>
             <label htmlFor="currency">Currency</label>
             <select value={formState.valueCurrency} id="currency" name="currency" tabIndex="0" onChange={handleChange}>
-              <option value="0"></option>
+              <option value="0" disabled="disabled">Currency</option>
               {
                 rates.map(r => <option key={r.code} value={r.code}>{r.code}</option>)
               }
@@ -366,9 +570,9 @@ const Form = ({rates, setDisplayForm, displayForm, setUpdated}) => {
         </form>
       </div>
     )
-    } else {
-      return null;
-    }
+    // } else {
+    //   return null;
+    // }
 }
 
 export default App;
