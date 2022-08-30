@@ -1,39 +1,26 @@
-import React, {useCallback, useContext} from 'react';
-import Button from './Button';
-import { AppContext } from '../../App';
-import API from '../../api/api';
+import React from 'react'
+import { useAppContext } from '../../App'
 
-const EditButton = ({children}) => {
+const EditButton = ({index}) => {
 
-    const context = useContext(AppContext);
+  const state = useAppContext().state;
+  const setState = useAppContext().setState;
 
-    const handleEdit = useCallback((e) => {
-        e.preventDefault();
-        // clearInterval(interval);
-        console.log('edit item');
-
-        
-        if (context.state.mode === 'edit') {
-  
-            let rateToUSD = async () => await new API().getRatesToUSD(context.state.model[context.state.index].currentcy).then((res) => {
-                context.state.model[context.state.index].priceCypto = res;
-                context.state.model[context.state.index].amountUSD = res * parseFloat(context.state.model[context.state.index].amountCypto)
-                context.setState({...context.state, mode: 'read'})
-            });
-          
-            rateToUSD();
-          
-        }
-
-        context.setState({...context.state, mode: 'read'})
-        
-    },[context])
-
-    if (context.state.mode === 'edit') {
-        return (
-            <Button action={handleEdit}>{children}</Button>
-        )
+  const handleCheckbox = (e, index) => {
+    if (e.target.checked === true) {
+      setState({...state, mode: 'edit', index: index})
+    } else {
+      setState({...state, mode: 'read'})
     }
+  };
+
+  return (
+    <input
+      type="checkbox"
+      checked={(state.mode === 'read' || state.index !== index) ? false : true}
+      onChange={(event) => handleCheckbox(event, index)}
+    />
+  )
 }
 
 export default EditButton;

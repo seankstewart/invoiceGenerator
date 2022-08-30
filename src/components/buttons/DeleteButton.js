@@ -1,24 +1,25 @@
-import React, {useCallback, useContext} from 'react';
+import React, {useCallback} from 'react';
 import Button from './Button';
-import { AppContext } from '../../App';
+import { useAppContext } from '../../App';
 
 const DeleteButton = ({children}) => {
 
-    const context = useContext(AppContext);
+    const state = useAppContext().state;
+    const setState = useAppContext().setState;
 
     const handleDelete = useCallback((e) => {
         e.preventDefault();
         // clearInterval(interval);
-        console.log(`delete item at index ${context.state.index}`);
+        console.log(`delete item at index ${state.index}`);
 
-        context.state.model.splice(context.state.index, 1);
+        state.model.splice(state.index, 1);
 
-        context.setState({...context.state, mode: 'read'})
+        setState({...state, mode: 'read'})
         // renderForm({});
         // setUpdated(u => !u);
-    },[context])
+    },[state, setState])
 
-    if (context.state.mode === 'edit') {
+    if (state.mode === 'edit') {
         return (
             <Button action={handleDelete}>{children}</Button>
         )

@@ -1,24 +1,24 @@
-import React, {useCallback, useContext} from 'react';
+import React, {useCallback} from 'react';
 import Button from './Button';
-import { AppContext } from '../../App';
-import './AddButton.scss';
+import { useAppContext } from '../../App';
 import API from '../../api/api';
 
 const AddButton = ({children}) => {
 
-    const context = useContext(AppContext);
+    const state = useAppContext().state;
+    const setState = useAppContext().setState;
 
     const handleAdd = useCallback((e) => {
         e.preventDefault();
 
         console.log('add item');
         
-        context.state.model.splice(context.state.model.length, 1, new API().emptyModel);
-        context.setState({...context.state, mode: 'edit', index: context.state.model.length - 1})
+        state.model.splice(state.model.length, 1, new API().emptyModel);
+        setState({...state, mode: 'edit', index: state.model.length - 1})
         
-    },[context])
+    },[state, setState])
 
-    if (context.state.mode === 'read') {
+    if (state.mode === 'read') {
         return (
             <div className={`button-add`}>
                 <Button action={handleAdd}>{children}</Button>

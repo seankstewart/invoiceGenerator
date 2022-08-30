@@ -26,6 +26,15 @@ class NumbersFormat {
     };
     return value.toString().split(".")[1].length || 0; 
   }
+
+  isValidNumber = (value) => {
+    if (new RegExp("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$").test(value)) {
+      return true;
+    };
+    return false; 
+  }
+  
+        
 }
 
 export default NumbersFormat;

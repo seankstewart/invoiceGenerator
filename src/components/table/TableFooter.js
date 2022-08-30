@@ -1,15 +1,15 @@
 import React from 'react'
-import EditButton from '../buttons/EditButton'
+import SaveButton from '../buttons/SaveButton'
 import DeleteButton from '../buttons/DeleteButton'
 import AddButton from '../buttons/AddButton'
 
-const TableFooter = () => {
+const TableFooter = (props) => {
   return (
     <tfoot>
         <tr>
             <td colSpan="7" align="left">
                 <AddButton>Add</AddButton>
-                <EditButton>Save</EditButton>
+                <SaveButton>Save</SaveButton>
                 <DeleteButton>Delete</DeleteButton>
             </td>
         </tr>

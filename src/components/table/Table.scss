@@ -1,0 +1,90 @@
+table {
+    margin: 0 auto;
+    background-color: #E3E3E3;
+    border-collapse: separate;
+    border-spacing: 1px;
+}
+
+th, td {
+    position: relative;
+    text-align: left;
+    padding-top: 0.2rem;
+    padding-right: 0.25rem;
+    padding-bottom: 0.2rem;
+    padding-left: 0.25rem;
+    background-color: white;
+}
+
+th {
+    font-size: .6rem;
+    padding-top: 0rem;
+}
+
+.table-form {
+    box-sizing: border-box;
+    // border: thin solid #E3E3E3;
+    font-size: 0.75rem;
+    margin: 2.5rem 2.5rem;
+
+    p {
+        display: block;
+       margin: 0;
+    }
+
+    input,
+    textarea,
+    select,
+    button {
+        all: revert;
+    }
+
+    label {
+        display: none;
+        position: absolute;
+        margin-top: 0.2rem;
+        margin-left: 0.25rem;
+        font-size: 0.75rem;
+        color: #CCCCCC;
+    }
+
+    input {
+        width: 90%;
+        padding: 0;
+        margin: 0;
+    }
+
+    select {
+        padding: 0;
+        margin: 0;
+    }
+
+    button {
+        margin-top: 0.2rem;
+        margin-right: 0.25rem;
+        margin-bottom: 0.2rem;
+        margin-left: 0.25rem;
+    }
+
+
+    .td-actions {
+        width: 1vw;
+    }
+    .td-merchant {
+        width: 20vw;
+    }
+    .td-item {
+        width: 20vw;
+    }
+    .td-amountCrypto {
+        width: 15vw;
+    }
+    .td-currency {
+        width: 13vw;
+    }
+    .td-price-USD {
+        width: 16vw;
+    }
+    .td-amount-USD {
+        width: 16vw;
+    }
+}
