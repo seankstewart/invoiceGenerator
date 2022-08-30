@@ -83,7 +83,7 @@ const FormField = ({field, type, index}) => {
 
 
 const TableDataInput = ({field, type, index}) => {
-  debugger;
+  
   const context = useAppContext();
   const { state } = context;
 

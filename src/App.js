@@ -2,12 +2,12 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import API from './api/api';
 import './App.scss';
 import Table from './components/table/Table';
-
+import useFetch from './useFetch';
 
 async function sleep(fn, par) {
   return await setTimeout(async function() {
     await fn(par);
-  }, 1000, fn, par);
+  }, 10000, fn, par);
 }
 
 export const AppContext = createContext();
@@ -30,15 +30,35 @@ const App = () => {
   });
   const [rates, setRates] = useState([]);
 
-  
+  const data = useFetch('https://bitpay.com/api/rates');
+
   useEffect(() => {
-    const getAppData = async () => {
-      await api.getRates(state, setState, setRates);
-      debugger;
-      await sleep(() => setState({...state, isPending: false}));
+    if (data.loading === false) {
+      setRates(data.data);
+      console.log(data.data)
+      sleep(setState({...state, isPending: false}));
     }
-    getAppData();
-  }, []);
+  }, [state, setState, setRates]);
+  
+  // useEffect(() => {
+  //   const getAppData = async () => {
+  //     await api.getRates(state, setState, setRates);
+  //     debugger;
+  //     await sleep(() => setState({...state, isPending: false}));
+  //   }
+  //   getAppData();
+  // }, []);
+
+  // fetch new data from rates api with setInterval
+  // useEffect(() => {
+  //   let interval = null;
+  //   const getRates = new API().getRates;
+  //   if (state.mode === "read") {
+  //     interval = setInterval(getRates, 5000);
+  //   }
+
+  //   return () => clearInterval(interval);
+  // }, [])
 
   return (
     <div className="App">

@@ -40,14 +40,12 @@ class API {
   ]
       
   getRates = async (state, setState, setRates) => {
-    // setIsPending(true);
-    // await fetch('https://bitpay.com/api/rates')
-    await fetch('./rates.json')
+    console.log('get Rates');
+    await fetch('https://bitpay.com/api/rates')
+    // await fetch('./rates.json')
       .then(response => response.json())
       .then(json => {
           setRates(json);
-          // setUpdated(u => !u);
-          // setIsPending(false);
           setState({...state, isPending: false})
       })
       .catch(e => {
