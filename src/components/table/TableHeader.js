@@ -4,7 +4,7 @@ const TableHeader = () => {
   return (
     <thead>
         <tr>
-            <th className={`td-actions`}><input type="checkbox" disabled="disabled" /></th>
+            <th className={`td-actions`}>&nbsp;</th>
             <th className={`td-merchant`}>Merchant</th>
             <th className={`td-item`}>Item</th>
             <th className={`td-amountCrypto`}>Amount (Crypto)</th>

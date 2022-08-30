@@ -15,27 +15,23 @@ th, td {
     background-color: white;
 }
 
+tr:nth-child(even) td {
+    background-color: #EEEEEE;
+}
+
 th {
     font-size: .6rem;
-    padding-top: 0rem;
+    font-weight: 700;
 }
 
 .table-form {
     box-sizing: border-box;
-    // border: thin solid #E3E3E3;
     font-size: 0.75rem;
     margin: 2.5rem 2.5rem;
 
     p {
         display: block;
        margin: 0;
-    }
-
-    input,
-    textarea,
-    select,
-    button {
-        all: revert;
     }
 
     label {
