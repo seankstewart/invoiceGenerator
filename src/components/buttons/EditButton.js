@@ -7,6 +7,7 @@ const EditButton = ({index}) => {
   const setState = useAppContext().setState;
 
   const handleCheckbox = (e, index) => {
+    
     if (e.target.checked === true) {
       setState({...state, mode: 'edit', index: index})
     } else {

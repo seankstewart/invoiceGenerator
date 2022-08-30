@@ -5,12 +5,12 @@ import API from '../../api/api';
 
 const AddButton = ({children}) => {
 
-    const state = useAppContext().state;
-    const setState = useAppContext().setState;
+    const context = useAppContext();
+    const {state, setState} = context;
 
     const handleAdd = useCallback((e) => {
         e.preventDefault();
-
+        
         console.log('add item');
         
         state.model.splice(state.model.length, 1, new API().emptyModel);

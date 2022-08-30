@@ -4,68 +4,67 @@ import './App.scss';
 import Table from './components/table/Table';
 import useFetch from './useFetch';
 
-async function sleep(fn, par) {
-  return await setTimeout(async function() {
-    await fn(par);
-  }, 10000, fn, par);
-}
-
 export const AppContext = createContext();
 
 export const useAppContext = () => {
   const context = useContext(AppContext);
-  
   return context;
 }
 
 const App = () => {
 
-  const api = new API();
-  const defaultData = new API().defaultData;
+  const [state, setState] = useState(null);
+  const [rates, setRates] = useState(null);
 
-  const [state, setState] = useState({
-    mode: 'read',
-    isPending: true,
-    model: defaultData
-  });
-  const [rates, setRates] = useState([]);
-
-  const data = useFetch('https://bitpay.com/api/rates');
+  const data = useFetch('https://bitpay.com/api/rates', true);
 
   useEffect(() => {
+    
     if (data.loading === false) {
       setRates(data.data);
-      console.log(data.data)
-      sleep(setState({...state, isPending: false}));
     }
-  }, [state, setState, setRates]);
-  
-  // useEffect(() => {
-  //   const getAppData = async () => {
-  //     await api.getRates(state, setState, setRates);
-  //     debugger;
-  //     await sleep(() => setState({...state, isPending: false}));
-  //   }
-  //   getAppData();
-  // }, []);
+  }, [data, rates]);
 
-  // fetch new data from rates api with setInterval
-  // useEffect(() => {
-  //   let interval = null;
-  //   const getRates = new API().getRates;
-  //   if (state.mode === "read") {
-  //     interval = setInterval(getRates, 5000);
-  //   }
+  useEffect(() => {
+    if (data.data !== null) {
+        const api = new API();
+        const defaultData = api.defaultData;
+        setState({mode: 'read', isPending: false, model: defaultData, interval: data.intervalRef.current});
+    }
+  }, [data.data, data.intervalRef]);
 
-  //   return () => clearInterval(interval);
-  // }, [])
+  useEffect(() => {
+    
+    if (state !== null) {
+      console.log(data.intervalRef.current, state.interval)
+      debugger;
+      if ('mode' in state && state.mode === 'edit' && data.intervalRef.current === state.interval) {
+        console.log('in edit mode, clear the interval')
+        debugger;
+        clearInterval(data.intervalRef.current);
+      } else {
+        console.log(data.intervalRef, state.interval)
+        console.log('in read mode, restart the interval');
+        if (state.interval === 0) {
+          data.startInterval(5000);
+        }
+      }
+      //  else if (data.intervalRef.current !== state.interval) {
+      //   console.log('in read mode, restart the interval')
+      //   debugger;
+      //   // data.startInterval(5000);
+      //   setState({...state, interval: data.intervalRef.current});
+      // }
+    }
+    
+  }, [state, data]);
 
   return (
     <div className="App">
       <header className="App-header">
         BitPay Invoice Generator
       </header>
-      {(state.isPending === true) ? 'Getting Current Rates...' 
+      {(state === null) ? 'Getting Current Rates...' 
         : 
         <AppContext.Provider value={{state, setState, rates}}>
           <form className="table-form">

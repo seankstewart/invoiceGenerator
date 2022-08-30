@@ -1,25 +1,17 @@
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 
-const useFetch = (url) => {
+const useFetch = (url, withInterval = false) => {
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  let intervalRef = useRef();
 
-  const sleep = async (fn, par) => {
-    return await setTimeout(async function() {
-      await fn(par);
-    }, 10000, fn, par);
-  }
-  
-  const getData = async () => {
+  const getData = useCallback(async () => {
     await fetch(url)
-      // await fetch('./rates.json')
       .then(response => response.json())
       .then(json => {
-        // console.log(json);
         setData(json);
-        // setRates(json);
       })
       .catch(e => {
         console.log(e)
@@ -29,27 +21,36 @@ const useFetch = (url) => {
       .finally(() => {
         setLoading(false);
       })
-  }
+  }, [])
 
   const refetch = useCallback(() => {
-    console.log('re-fetching')
     setLoading(true);
     getData();
-  },[])
+  },[getData])
+
+  const startInterval = useCallback((ms) => {
+    return setInterval(refetch, ms)
+  }, [refetch]);
 
   useEffect(() => {
-    sleep(setLoading(true));
-    getData();
-  }, [url]);
-
-  useEffect(() => {
-    if (loading === false) {      
-      setInterval(refetch, 5000);
+    setLoading(true);
+    const waitForDataLoad = async () => {
+      getData();
     }
-  }, [refetch, loading]);
+    waitForDataLoad();
+  }, [getData]);
+
+  useEffect(() => {
+    debugger;
+    if (loading === false) {
+      intervalRef.current = startInterval(5000);
+    }
+
+    return () => clearInterval(intervalRef.current);
+  }, [loading, refetch, startInterval])
    
  
-  return {data, loading, error, refetch} // we return the state and data we fetched // return refetch here
+  return {data, loading, error, refetch, startInterval, intervalRef} // we return the state and data we fetched // return refetch here
 }
 
 export default useFetch;

@@ -9,14 +9,13 @@ const DeleteButton = ({children}) => {
 
     const handleDelete = useCallback((e) => {
         e.preventDefault();
-        // clearInterval(interval);
+        
         console.log(`delete item at index ${state.index}`);
 
         state.model.splice(state.index, 1);
 
         setState({...state, mode: 'read'})
-        // renderForm({});
-        // setUpdated(u => !u);
+        
     },[state, setState])
 
     if (state.mode === 'edit') {
