@@ -9,8 +9,8 @@ const SaveButton = ({children}) => {
 
     const handleEdit = useCallback((e) => {
         e.preventDefault();
-        console.log('edit item');
-        setState({...state, mode: 'read',interval: 0})
+        console.log('save item');
+        setState({...state, mode: 'read', interval: 0})
     },[state, setState])
 
     if (state.mode === 'edit') {

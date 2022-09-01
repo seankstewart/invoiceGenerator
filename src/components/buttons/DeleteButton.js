@@ -14,7 +14,7 @@ const DeleteButton = ({children}) => {
 
         state.model.splice(state.index, 1);
 
-        setState({...state, mode: 'read'})
+        setState({...state, mode: 'read', interval: 0})
         
     },[state, setState])
 

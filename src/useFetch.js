@@ -16,7 +16,7 @@ const useFetch = (url, withInterval = false) => {
       .catch(e => {
         console.log(e)
         setError(e);
-        alert('Sorry. BitPay could not get the rates.')
+        // alert('Sorry. BitPay could not get the rates.')
       })
       .finally(() => {
         setLoading(false);
@@ -24,7 +24,7 @@ const useFetch = (url, withInterval = false) => {
   }, [])
 
   const refetch = useCallback(() => {
-    setLoading(true);
+    // setLoading(true);
     getData();
   },[getData])
 
@@ -41,13 +41,25 @@ const useFetch = (url, withInterval = false) => {
   }, [getData]);
 
   useEffect(() => {
-    debugger;
-    if (loading === false) {
-      intervalRef.current = startInterval(5000);
-    }
 
-    return () => clearInterval(intervalRef.current);
-  }, [loading, refetch, startInterval])
+    // if (loading === false) {
+      console.log('------ NEW INETRVAL STARTED --------')
+      // intervalRef.current = startInterval(5000);
+      
+      const id = setInterval(() => {
+        console.log(intervalRef.current)
+        getData();
+      }, 5000);
+      intervalRef.current = id;
+      return () => {
+        clearInterval(intervalRef.current);
+      };
+
+    // }
+
+    // return () => clearInterval(intervalRef.current);
+  // }, [loading, refetch, startInterval])
+  }, [getData])
    
  
   return {data, loading, error, refetch, startInterval, intervalRef} // we return the state and data we fetched // return refetch here

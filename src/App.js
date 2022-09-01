@@ -26,35 +26,36 @@ const App = () => {
   }, [data, rates]);
 
   useEffect(() => {
+    debugger;
     if (data.data !== null) {
         const api = new API();
         const defaultData = api.defaultData;
-        setState({mode: 'read', isPending: false, model: defaultData, interval: data.intervalRef.current});
+        if (state !== null && 'interval' in state) {
+          setState({...state, interval: data.intervalRef.current});
+        } else {
+          console.log(`set state initially`)
+          setState({mode: 'read', isPending: false, model: defaultData, interval: data.intervalRef.current});
+        }
     }
   }, [data.data, data.intervalRef]);
 
   useEffect(() => {
     
     if (state !== null) {
+      console.log(state)
       console.log(data.intervalRef.current, state.interval)
-      debugger;
+
       if ('mode' in state && state.mode === 'edit' && data.intervalRef.current === state.interval) {
         console.log('in edit mode, clear the interval')
-        debugger;
         clearInterval(data.intervalRef.current);
       } else {
         console.log(data.intervalRef, state.interval)
         console.log('in read mode, restart the interval');
+        console.log(state.interval);
         if (state.interval === 0) {
           data.startInterval(5000);
         }
       }
-      //  else if (data.intervalRef.current !== state.interval) {
-      //   console.log('in read mode, restart the interval')
-      //   debugger;
-      //   // data.startInterval(5000);
-      //   setState({...state, interval: data.intervalRef.current});
-      // }
     }
     
   }, [state, data]);
