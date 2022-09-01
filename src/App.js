@@ -26,14 +26,16 @@ const App = () => {
   }, [data, rates]);
 
   useEffect(() => {
-    debugger;
     if (data.data !== null) {
         const api = new API();
         const defaultData = api.defaultData;
         if (state !== null && 'interval' in state) {
-          setState({...state, interval: data.intervalRef.current});
+          if (state.mode === 'edit') {
+            setState({...state, interval: 0});
+          } else {
+            setState({...state, interval: data.intervalRef.current});
+          }
         } else {
-          console.log(`set state initially`)
           setState({mode: 'read', isPending: false, model: defaultData, interval: data.intervalRef.current});
         }
     }
@@ -52,8 +54,10 @@ const App = () => {
         console.log(data.intervalRef, state.interval)
         console.log('in read mode, restart the interval');
         console.log(state.interval);
-        if (state.interval === 0) {
-          data.startInterval(5000);
+        if (state.mode === "read" && state.interval === 0) {
+          clearInterval(data.intervalRef.current);
+          // data.startInterval(5000);
+          data.refetch()
         }
       }
     }

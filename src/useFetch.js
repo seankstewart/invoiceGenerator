@@ -24,7 +24,7 @@ const useFetch = (url, withInterval = false) => {
   }, [])
 
   const refetch = useCallback(() => {
-    // setLoading(true);
+    setLoading(true);
     getData();
   },[getData])
 
@@ -42,7 +42,7 @@ const useFetch = (url, withInterval = false) => {
 
   useEffect(() => {
 
-    // if (loading === false) {
+    if (loading === false) {
       console.log('------ NEW INETRVAL STARTED --------')
       // intervalRef.current = startInterval(5000);
       
@@ -55,11 +55,11 @@ const useFetch = (url, withInterval = false) => {
         clearInterval(intervalRef.current);
       };
 
-    // }
+    }
 
     // return () => clearInterval(intervalRef.current);
-  // }, [loading, refetch, startInterval])
-  }, [getData])
+  }, [loading, getData])
+  // }, [getData])
    
  
   return {data, loading, error, refetch, startInterval, intervalRef} // we return the state and data we fetched // return refetch here
