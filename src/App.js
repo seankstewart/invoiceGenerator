@@ -17,6 +17,19 @@ const App = () => {
   const [rates, setRates] = useState(null);
 
   const data = useFetch('https://bitpay.com/api/rates', true);
+  
+  const updateDefaultData = (defaultData) => {
+    let updatedData = [];
+    defaultData.forEach(async (d) => {
+      const code = d.currentcy;
+      await new API().getRatesToUSD(code).then((res) => {
+        d.priceCypto = res;
+        d.amountUSD = d.priceCypto * d.amountCypto;
+        updatedData.push(d)
+      });
+      return null;
+    }, []);
+  }
 
   useEffect(() => {
     
@@ -29,13 +42,16 @@ const App = () => {
     if (data.data !== null) {
         const api = new API();
         const defaultData = api.defaultData;
+
         if (state !== null && 'interval' in state) {
           if (state.mode === 'edit') {
             setState({...state, interval: 0});
           } else {
+            updateDefaultData(state.model);
             setState({...state, interval: data.intervalRef.current});
           }
         } else {
+          updateDefaultData(defaultData);
           setState({mode: 'read', isPending: false, model: defaultData, interval: data.intervalRef.current});
         }
     }
@@ -55,8 +71,6 @@ const App = () => {
         console.log('in read mode, restart the interval');
         console.log(state.interval);
         if (state.mode === "read" && state.interval === 0) {
-          clearInterval(data.intervalRef.current);
-          // data.startInterval(5000);
           data.refetch()
         }
       }
