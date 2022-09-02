@@ -1,11 +1,10 @@
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
-const useFetch = (url, withInterval = false) => {
+const useFetch = (url) => {
 
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(withInterval);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  let intervalRef = useRef();
 
   const getData = useCallback(async () => {
     await fetch(url)
@@ -22,24 +21,13 @@ const useFetch = (url, withInterval = false) => {
       })
   }, [url]);
 
-  const refetch = useCallback(() => {
-    getData();
-  },[getData])
-
-  const startInterval = useCallback((ms) => {
-    return setInterval(refetch, ms)
-  }, [refetch]);
-
   useEffect(() => {
-    console.log('------ NEW INETRVAL STARTED --------');
-    const id = startInterval(5000);
-    intervalRef.current = id;
-    return () => {
-      clearInterval(intervalRef.current);
-    };
-  }, [startInterval])
-   
-  return {data, loading, error, refetch, intervalRef}
+    if (data === null && loading === true) {
+      getData();
+    }
+  }, [data, loading, getData])
+
+  return {data, loading, error}
 }
 
 export default useFetch;

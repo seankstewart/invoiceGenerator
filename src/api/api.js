@@ -50,12 +50,17 @@ class API {
       })
       .catch(e => {
           console.log(e)
-          alert('Sorry. BitPay could not get the rates.')
+          // alert('Sorry. BitPay could not get the rates.')
       })
   }
       
 
   getRatesToUSD = async (currencyType) => {
+
+    if (currencyType === "") {
+      return
+    }
+
     let rate = 0;
     await fetch(`https://bitpay.com/api/rates/${currencyType}/USD`)
       .then(response => response.json())
@@ -65,7 +70,7 @@ class API {
       })
       .catch(e => {
           console.log(e)
-          alert('Sorry. BitPay could not get the rate for the choosen currency.')
+          // alert('Sorry. BitPay could not get the rate for the choosen currency.')
       });
   
     return rate;
