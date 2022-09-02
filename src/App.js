@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import API from './api/api';
 import './App.scss';
 import Table from './components/table/Table';
@@ -18,44 +18,62 @@ const App = () => {
 
   const data = useFetch('https://bitpay.com/api/rates', true);
   
-  const updateDefaultData = (defaultData) => {
-    let updatedData = [];
+  const updateDefaultData = useCallback((defaultData) => {
+    const updatedData = [];
     defaultData.forEach(async (d) => {
       const code = d.currentcy;
-      await new API().getRatesToUSD(code).then((res) => {
-        d.priceCypto = res;
+      const result = await new API().getRatesToUSD(code);
+      console.log(result);
+      // .then((res) => {
+        d.priceCypto = result;
         d.amountUSD = d.priceCypto * d.amountCypto;
-        updatedData.push(d)
-      });
-      return null;
-    }, []);
-  }
+        updatedData.push(d);
+      // });
+
+      console.log(updatedData);
+
+      // data.refetch()
+      setState({mode: 'read', isPending: false, model: updatedData, interval: data.intervalRef.current});
+      
+    });
+    return updatedData;
+    
+  },[data])
 
   useEffect(() => {
     
-    if (data.loading === false) {
+    // if (state === null) {
+      console.log(data.data)
+      debugger;
       setRates(data.data);
-    }
+    // }
   }, [data, rates]);
 
   useEffect(() => {
-    if (data.data !== null) {
+    // console.log(data);
+    // debugger;
+    if (state === null) {
         const api = new API();
         const defaultData = api.defaultData;
 
-        if (state !== null && 'interval' in state) {
-          if (state.mode === 'edit') {
-            setState({...state, interval: 0});
-          } else {
-            updateDefaultData(state.model);
-            setState({...state, interval: data.intervalRef.current});
-          }
-        } else {
-          updateDefaultData(defaultData);
-          setState({mode: 'read', isPending: false, model: defaultData, interval: data.intervalRef.current});
-        }
+        const updatedData = updateDefaultData(defaultData);
+        console.log(updatedData);
+        debugger
+        
+        // setState({...state, isPending: false});
+        // if (state !== null && 'interval' in state) {
+        //   if (state.mode === 'edit') {
+        //     setState({...state, interval: 0});
+        //   } else {
+        //     updateDefaultData(state.model);
+        //     setState({...state, interval: data.intervalRef.current});
+        //   }
+        // } else {
+        //   updateDefaultData(defaultData);
+        //   setState({mode: 'read', isPending: false, model: defaultData, interval: data.intervalRef.current});
+        // }
     }
-  }, [data.data, data.intervalRef]);
+  }, [state, updateDefaultData]);
 
   useEffect(() => {
     
@@ -83,13 +101,14 @@ const App = () => {
       <header className="App-header">
         BitPay Invoice Generator
       </header>
-      {(state === null) ? 'Getting Current Rates...' 
-        : 
+      {(state !== null && state.isPending === false) ? 
         <AppContext.Provider value={{state, setState, rates}}>
           <form className="table-form">
             <Table />
           </form>
         </AppContext.Provider>
+        :
+        'Getting Current Rates...' 
       }
     </div>
   );
