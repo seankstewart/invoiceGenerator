@@ -16,3 +16,43 @@
     font-size: calc(10px + 2vmin);
     color: white;
 }
+
+.message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 4rem;
+
+    > * {
+        display: none;
+        visibility: visible;
+    }
+}
+
+.hideMeAfter5Seconds {
+    display: block;
+    animation: hideAnimation ease 6s;
+    visibility: hidden; 
+  }
+  
+@keyframes hideAnimation {
+    0% {opacity: 1;visibility: visible;}
+    50% {opacity: 1;visibility: visible;}
+    100% {opacity: 0;visibility: visible;}
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 0.0; 
+    }
+    50% {
+      opacity: 1.0;
+    }
+    100% {
+        opacity: 0.0;
+    }
+    0% {
+        opacity: 0.0;
+    }
+  }

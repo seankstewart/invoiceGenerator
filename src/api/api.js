@@ -63,6 +63,7 @@ class API {
     await fetch(`https://bitpay.com/api/rates/${currencyType}/USD`)
       .then(response => response.json())
       .then(json => {
+          console.log(json);
           rate = json.rate;
       })
       .catch(e => {
