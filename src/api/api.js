@@ -39,20 +39,6 @@ class API {
     }
   ]
       
-  getRates = async (state, setState, setRates) => {
-    console.log('get Rates');
-    await fetch('https://bitpay.com/api/rates')
-      .then(response => response.json())
-      .then(json => {
-          setRates(json);
-          setState({...state, isPending: false})
-      })
-      .catch(e => {
-          console.log(e)
-      })
-  }
-      
-
   getRatesToUSD = async (currencyType) => {
 
     if (currencyType === "") {

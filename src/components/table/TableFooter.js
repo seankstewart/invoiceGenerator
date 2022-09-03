@@ -9,8 +9,10 @@ const TableFooter = (props) => {
         <tr>
             <td colSpan="7" align="left">
                 <AddButton>Add</AddButton>
-                <SaveButton>Save</SaveButton>
-                <DeleteButton>Delete</DeleteButton>
+                <div style={{display:'flex',justifyContent:'flex-end'}}>
+                  <SaveButton>Save</SaveButton>
+                  <DeleteButton>Delete</DeleteButton>
+                </div>
             </td>
         </tr>
     </tfoot>

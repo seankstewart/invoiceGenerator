@@ -13,7 +13,6 @@ const FormField = ({field, type, index}) => {
   const handleBlur = (e) => {
 
     console.log('handleBlur');
-    console.log(e);
 
     let rateToUSD = async () => await new API().getRatesToUSD(state.model[state.index].currentcy).then((res) => {
       state.model[state.index].priceCypto = res;
@@ -60,6 +59,10 @@ const FormField = ({field, type, index}) => {
             id={field}
             name={field}
             onChange={handleChange}
+            onBlur={(e) => {
+              if (field !== 'amountCypto') return;
+              handleBlur(e)
+            }}
         />
       )
     case 'select':

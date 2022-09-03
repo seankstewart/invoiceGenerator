@@ -21,7 +21,7 @@ const App = () => {
 
   useTimer(() => updateData(null).then((res) => {
     setState({...state, isPending: false, model: res, message: 'Rates have been updated'})
-  }), (state !== null && state.mode === 'edit') ? null : 20000);
+  }), (state !== null && state.mode === 'edit') ? null : 120000);
 
   const updateData = async (data) => {
     /* updateData was called by setInterval */
