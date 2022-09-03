@@ -42,7 +42,6 @@ class API {
   getRates = async (state, setState, setRates) => {
     console.log('get Rates');
     await fetch('https://bitpay.com/api/rates')
-    // await fetch('./rates.json')
       .then(response => response.json())
       .then(json => {
           setRates(json);
@@ -50,7 +49,6 @@ class API {
       })
       .catch(e => {
           console.log(e)
-          // alert('Sorry. BitPay could not get the rates.')
       })
   }
       
@@ -65,12 +63,10 @@ class API {
     await fetch(`https://bitpay.com/api/rates/${currencyType}/USD`)
       .then(response => response.json())
       .then(json => {
-          console.log(json);
           rate = json.rate;
       })
       .catch(e => {
           console.log(e)
-          // alert('Sorry. BitPay could not get the rate for the choosen currency.')
       });
   
     return rate;
