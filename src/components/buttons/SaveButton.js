@@ -14,7 +14,7 @@ const SaveButton = ({children}) => {
         setState({...state, mode: 'read', message: "Item(s) Saved Successfully"})
     },[state, setState])
 
-    if (state.mode === 'edit') {
+    if (state.mode === 'edit' && state.message === "") {
         return (
             <Button action={handleEdit}>{children}</Button>
         )

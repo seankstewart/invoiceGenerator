@@ -18,7 +18,7 @@ const DeleteButton = ({children}) => {
         
     },[state, setState])
 
-    if (state.mode === 'edit') {
+    if (state.mode === 'edit' && state.message === "") {
         return (
             <Button action={handleDelete}>{children}</Button>
         )
