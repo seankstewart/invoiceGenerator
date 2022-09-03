@@ -11,7 +11,7 @@ const SaveButton = ({children}) => {
         e.preventDefault();
         console.log('save item');
 
-        setState({...state, mode: 'read', interval: 0})
+        setState({...state, mode: 'read', message: "Item(s) Saved Successfully"})
     },[state, setState])
 
     if (state.mode === 'edit') {

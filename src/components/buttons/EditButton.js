@@ -11,7 +11,7 @@ const EditButton = ({index}) => {
     if (e.target.checked === true) {
       setState({...state, mode: 'edit', index: index})
     } else {
-      setState({...state, mode: 'read', interval: 0})
+      setState({...state, mode: 'read', message: "Item Edited Successfully"})
     }
   };
 
