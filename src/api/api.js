@@ -53,7 +53,8 @@ class API {
           rate = json.rate;
       })
       .catch(e => {
-          console.log(e)
+          console.log(e);
+          alert("Error fetching the rate to USD for the choosen currency.")
       });
   
     return rate;

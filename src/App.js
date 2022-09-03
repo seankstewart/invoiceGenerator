@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import API from './api/api';
 import './App.scss';
 import Table from './components/table/Table';
@@ -23,12 +23,12 @@ const App = () => {
     setState({...state, isPending: false, model: res, message: 'Rates have been updated'})
   }), (state !== null && state.mode === 'edit') ? null : 120000);
 
-  const updateData = async (data) => {
+  const updateData = useCallback( async (data) => {
     /* updateData was called by setInterval */
     if (data === null) {
       return await Promise.all(state.model.map(async (d) => {
         const code = d.currentcy;
-        const ratesUSD = await new API().getRatesToUSD(code);
+        const ratesUSD = await new API(state, setState).getRatesToUSD(code);
         d.priceCypto = ratesUSD;
         d.amountUSD = d.priceCypto * d.amountCypto;
         setState({...state, message: ""});
@@ -39,13 +39,13 @@ const App = () => {
     /* updateData was called by useEffect */
     return await Promise.all(data.map(async (d) => {
       const code = d.currentcy;
-      const ratesUSD = await new API().getRatesToUSD(code);
+      const ratesUSD = await new API(state, setState).getRatesToUSD(code);
       d.priceCypto = ratesUSD;
       d.amountUSD = d.priceCypto * d.amountCypto;
       setState({...state, message: ""});
       return d;
     }));
-  }
+  },[state])
 
   useEffect(() => {
     let data = null;
@@ -55,7 +55,7 @@ const App = () => {
         setState({mode: 'read', model: res, isPending: false, message: ""})
       }), 3000);
     }
-  }, [])
+  }, [state, updateData])
 
   useEffect(() => {
     if (rates === null) {
