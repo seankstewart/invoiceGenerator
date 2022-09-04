@@ -5,6 +5,7 @@ import Table from './components/table/Table';
 import useFetch from './useFetch';
 import useTimer from './useTimer';
 import Message from './components/Message';
+import ErrorBoundary from './ErrorBoundary';
 
 export const AppContext = createContext();
 
@@ -78,12 +79,14 @@ const App = () => {
       </header>
       {((state !== null && state.isPending === false) && rates !== null) ? 
         <AppContext.Provider value={{state, setState, rates}}>
-          <div className={`table-form ${showTableFormClass}`}>
-            <form>
-              <Table />
-            </form>
-            <Message />
-          </div>
+          <ErrorBoundary>
+            <div className={`table-form ${showTableFormClass}`}>
+              <form>
+                <Table />
+              </form>
+              <Message />
+            </div>
+          </ErrorBoundary>
         </AppContext.Provider>
         :
         <div className={'message'}>Fetching Rates...</div>
