@@ -104,7 +104,7 @@ th {
             background: #e3e3e3;
 
             &:nth-child(1) {
-                width: 1vw;
+                width: 1%;
                 &::before {
                     visibility: hidden;
                     content: 'aa';
@@ -112,22 +112,22 @@ th {
                 }
             }
             &:nth-child(2) {
-                width: 20vw;
+                width: 20%;
             }
             &:nth-child(3) {
-                width: 20vw;
+                width: 20%;
             }
             &:nth-child(4) {
-                width: 15vw;
+                width: 15%;
             }
             &:nth-child(5) {
-                width: 13vw;
+                width: 10%;
             }
             &:nth-child(6) {
-                width: 13vw;
+                width: 16%;
             }
             &:nth-child(7) {
-                width: 16vw;
+                width: 16%;
             }
         }
     }
@@ -138,25 +138,25 @@ th {
 
         td {
             &:nth-child(1) {
-                width: 1vw;
+                width: 1%;
             }
             &:nth-child(2) {
-                width: 20vw;
+                width: 20%;
             }
             &:nth-child(3) {
-                width: 20vw;
+                width: 20%;
             }
             &:nth-child(4) {
-                width: 15vw;
+                width: 15%;
             }
             &:nth-child(5) {
-                width: 13vw;
+                width: 10%;
             }
             &:nth-child(6) {
-                width: 13vw;
+                width: 16%;
             }
             &:nth-child(7) {
-                width: 16vw;
+                width: 16%;
             }
         }
     }
