@@ -4,6 +4,7 @@ import './App.scss';
 import Table from './components/table/Table';
 import useFetch from './useFetch';
 import useTimer from './useTimer';
+import Message from './components/Message';
 
 export const AppContext = createContext();
 
@@ -18,6 +19,7 @@ const App = () => {
 
   const [state, setState] = useState(null);
   const [rates, setRates] = useState(null);
+  const [showTableFormClass, setShowTableFormClass] = useState('');
 
   const ratesData = useFetch('https://bitpay.com/api/rates');
 
@@ -65,18 +67,25 @@ const App = () => {
     }
   }, [rates, ratesData]);
 
+  useEffect(() => {
+    if ((state !== null && state.isPending === false) && rates !== null) {
+      setShowTableFormClass('show');
+    }
+  }, [state, rates, showTableFormClass])
+
   return (
     <div className="App">
       <header className="App-header">
-        BitPay Invoice Generator
+        <span className={`${showTableFormClass}`} style={(showTableFormClass !== '') ? {transform: 'translateY(-2.5vh)'} : null}>BitPay Invoice Generator</span>
       </header>
       {((state !== null && state.isPending === false) && rates !== null) ? 
         <AppContext.Provider value={{state, setState, rates}}>
-
-          <div className={'message'}>{(state.message !== "") ? <span className={'hideMeAfter5Seconds'}>{state.message}</span> : null}</div>
-          <form className="table-form">
-            <Table />
-          </form>
+          <div className={`table-form ${showTableFormClass}`}>
+            <form>
+              <Table />
+            </form>
+            <Message />
+          </div>
         </AppContext.Provider>
         :
         <div className={'message'}>Fetching Rates...</div>

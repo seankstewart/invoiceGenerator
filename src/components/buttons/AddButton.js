@@ -24,36 +24,18 @@ const AddButton = ({children}) => {
         let interval = null;
         
 
-        function updateScroll(){
-            console.log('scrollTo bottom of tableRef')
-            console.log('state.tableRef.current.offsetHeight',state.tableRef.current.offsetHeight)
-            console.log('state.tableRef.current.scrollHeight - state.tableRef.current.clientHeight', state.tableRef.current.scrollHeight, state.tableRef.current.clientHeight)
+        const updateScroll = () => {
             state.tableRef.current.scrollTop = state.tableRef.current.scrollHeight;
             setTimeout(clearInterval(interval),1000);
         }
 
-        // if ('tableRef' in state && state.tableRef !== null) {
-            
-            console.log('TABLEREF')
-            console.log('scrollToHeight====',state.tableRef.current.clientHeight)
-            //state.tableRef.current.addEventListener('scroll', () => {
-                if (state.tableRef.current.clientHeight >= (state.tableRef.current.offsetHeight - 20)) {
-                    // state.tableRef.current.scrollTo({
-                    //     bottom: state.tableRef.current.clientHeight,
-                    //     behavior: 'smooth',
-                    // });
-                    // state.tableRef.current.scrollTop = state.tableRef.current.scrollHeight - state.tableRef.current.clientHeight;
-                    // state.tableRef.current.scrollTop = state.tableRef.current.scrollHeight
-                    interval = setInterval(updateScroll, 10)
-                } else {
-                    console.log('DO NOT scrollTo bottom of tableRef')
-                }
-                
-            // });
-        // }
+        // force scrollbar to bottom of tbody once it has reached it's max height
+        if (state.tableRef.current.clientHeight >= (state.tableRef.current.offsetHeight - 20)) {
+            interval = setInterval(updateScroll, 10)
+        }
         
         state.model.splice(state.model.length, 1, new API().emptyModel);
-        setState({...state, mode: 'edit', index: state.model.length - 1})
+        setState({...state, mode: 'edit', index: state.model.length - 1, message: ""})
         
     },[state, setState])
 

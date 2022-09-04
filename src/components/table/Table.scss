@@ -27,7 +27,7 @@ th {
 .table-form {
     box-sizing: border-box;
     font-size: 0.75rem;
-    margin: 0 2.5rem 2.5rem;
+    margin: 0 2.5rem;
 
     p {
         display: block;
@@ -88,6 +88,8 @@ th {
 
 // scrollable tbody
 .table-form {
+    height: calc(100% - 35vh);
+    
     table {
         display: flex;
         overflow: hidden;
@@ -133,11 +135,10 @@ th {
     tbody {
         // border: 4px solid red;
         overflow-y: auto;
-        max-height: 300px;
         flex-grow: 1;
+        height: 50vh;
 
         td {
-            // border: 4px solid blue;
             &:nth-child(1) {
                 width: 1vw;
             }

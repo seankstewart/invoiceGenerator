@@ -22,12 +22,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 4rem;
+    height: 10vh;
 
     > * {
         display: none;
         visibility: visible;
     }
+}
+
+.show {
+    display: block;
+    transform: translateY(-5vh);
+    transition-property: transform;
+    transition-delay: 0.1s;
+    transition-duration: 3s;
 }
 
 .hideMeAfter5Seconds {
