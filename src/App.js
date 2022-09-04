@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import API from './api/api';
 import './App.scss';
 import Table from './components/table/Table';
@@ -13,6 +13,8 @@ export const useAppContext = () => {
 }
 
 const App = () => {
+
+  const tableRef = useRef();
 
   const [state, setState] = useState(null);
   const [rates, setRates] = useState(null);
@@ -52,7 +54,7 @@ const App = () => {
     if (state === null) {
       data = new API().defaultData;
       window.setTimeout(() => updateData(data).then((res) => {
-        setState({mode: 'read', model: res, isPending: false, message: ""})
+        setState({mode: 'read', model: res, isPending: false, message: "", tableRef})
       }), 3000);
     }
   }, [state, updateData])

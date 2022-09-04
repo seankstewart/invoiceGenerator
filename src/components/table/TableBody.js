@@ -6,10 +6,11 @@ import EditButton from '../buttons/EditButton'
 
 const TableBody = () => {
 
-  const state = useAppContext().state;
+  const context = useAppContext();
+  const {state} = context;
 
   return (
-    <tbody>
+    <tbody ref={state.tableRef}>
     {state.model.map((s, index) => {
       return (
       <tr key={`tableRow${index}`}>
@@ -20,6 +21,7 @@ const TableBody = () => {
           <TableDataInput field={'currentcy'} type={'select'} index={index} />
           <TableDataStatic field={'priceCypto'} index={index} />
           <TableDataStatic field={'amountUSD'} index={index} />
+          {/* <td className={`td-scrollbar`}>&nbsp;</td> */}
       </tr>
       )
     })}
