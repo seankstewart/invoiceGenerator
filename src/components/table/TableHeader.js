@@ -11,7 +11,6 @@ const TableHeader = () => {
             <th className={`td-currency`}>Currency</th>
             <th className={`td-price-USD`}>Price/crypto (USD)</th>
             <th className={`td-amount-USD`}>Amount (USD)</th>
-            <th className={`td-scrollbar`}>&nbsp;</th>
         </tr>
     </thead>
   )

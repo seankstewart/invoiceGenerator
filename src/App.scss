@@ -27,8 +27,10 @@
 
 .show {
     display: block;
-    transform: translateY(-5vh);
-    transition-property: transform;
+    // transform: translateY(-5vh); // why does this makes the tbody text blurry when scrollbar appears?
+    // transition-property: transform;
+    margin-top: -5.75vh;
+    transition-property: margin;
     transition-delay: 0.1s;
     transition-duration: 3s;
 }
