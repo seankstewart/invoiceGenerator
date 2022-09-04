@@ -7,7 +7,7 @@ const useRateToUSD = (currencyType) => {
   const { state } = context;
 
   let url = "";
-  debugger;
+  
   if (state.model[state.index].amountCypto !== "" && state.model[state.index].currentcy !== "") {
     url = `https://bitpay.com/api/rates/${currencyType}/USD`;
   }

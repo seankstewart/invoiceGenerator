@@ -9,7 +9,7 @@ const EditButton = ({index}) => {
   const handleCheckbox = (e, index) => {
     
     if (e.target.checked === true) {
-      setState({...state, mode: 'edit', index: index})
+      setState({...state, mode: 'edit', index: index, message: ""})
     } else {
       setState({...state, mode: 'read', message: "Item Edited Successfully", index: null})
     }

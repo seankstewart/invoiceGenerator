@@ -29,7 +29,7 @@ const UpdateRatesButton = ({children}) => {
           setState({mode: 'read', model: res, isPending: false, message: ""})
         }), 3000);
 
-        setState({...state, mode: 'edit', message: "Fetching Rates..."})
+        setState({...state, mode: 'edit', isPending: true, message: ""})
     },[state, setState, updateData])
 
     if (state.mode === 'read' || (state.mode !== 'edit')) {

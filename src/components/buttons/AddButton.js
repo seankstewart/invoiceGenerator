@@ -30,7 +30,7 @@ const AddButton = ({tableRef, children}) => {
             }
             
             state.model.splice(state.model.length, 1, new API().emptyModel);
-            setState({...state, mode: 'edit', index: state.model.length - 1})
+            setState({...state, mode: 'edit', index: state.model.length - 1, message: ""})
         }
         
     },[state, setState, tableRef])
