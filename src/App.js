@@ -15,8 +15,6 @@ export const useAppContext = () => {
 
 const App = () => {
 
-  const tableRef = useRef();
-
   const [state, setState] = useState(null);
   const [rates, setRates] = useState(null);
   const [showTableFormClass, setShowTableFormClass] = useState('');
@@ -56,7 +54,7 @@ const App = () => {
     if (state === null) {
       data = new API().defaultData;
       window.setTimeout(() => updateData(data).then((res) => {
-        setState({mode: 'read', model: res, isPending: false, message: "", tableRef})
+        setState({mode: 'read', model: res, isPending: false, message: ""})
       }), 3000);
     }
   }, [state, updateData])

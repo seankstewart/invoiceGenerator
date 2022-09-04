@@ -1,16 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SaveButton from '../buttons/SaveButton'
 import DeleteButton from '../buttons/DeleteButton'
 import AddButton from '../buttons/AddButton'
 import UpdateRatesButton from '../buttons/UpdateRatesButton'
 
 const TableFooter = (props) => {
+
+  const [ref, setRef] = useState(null);
+  React.useEffect(() => {
+    console.log('tableFooter props', props);
+    setRef(props.tableRef);
+  })
+
   return (
     <tfoot>
         <tr>
             <td colSpan="7" align="left">
                 <div style={{display:'flex',justifyContent:'flex-start'}}>
-                  <AddButton>Add</AddButton>
+                  <AddButton tableRef={ref}>Add</AddButton>
                   <UpdateRatesButton>Update Rates</UpdateRatesButton>
                 </div>
                 <div style={{display:'flex',justifyContent:'flex-end'}}>

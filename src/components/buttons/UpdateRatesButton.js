@@ -32,7 +32,7 @@ const UpdateRatesButton = ({children}) => {
         setState({...state, mode: 'edit', message: "Fetching Rates..."})
     },[state, setState, updateData])
 
-    if (state.mode === 'read' || (state.mode !== 'edit' && state.message === "")) {
+    if (state.mode === 'read' || (state.mode !== 'edit')) {
         return (
             <Button action={handleClick}>{children}</Button>
         )

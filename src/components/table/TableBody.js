@@ -10,7 +10,7 @@ const TableBody = () => {
   const {state} = context;
 
   return (
-    <tbody ref={state.tableRef}>
+    <tbody>
     {state.model.map((s, index) => {
       return (
       <tr key={`tableRow${index}`}>
