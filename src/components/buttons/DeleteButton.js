@@ -14,11 +14,11 @@ const DeleteButton = ({children}) => {
 
         state.model.splice(state.index, 1);
 
-        setState({...state, mode: 'read', message: "Item Deleted Successfully"})
+        setState({...state, mode: 'read', message: "Item Deleted Successfully", index: null})
         
     },[state, setState])
 
-    if (state.mode === 'edit' && state.message === "") {
+    if (state.mode === 'edit' && 'index' in state && state.index !== null) {
         return (
             <Button action={handleDelete}>{children}</Button>
         )

@@ -18,7 +18,7 @@ const AddButton = ({children}) => {
         
     },[state, setState])
 
-    if (state.mode === 'read' || (state.mode === 'edit' && state.message === "")) {
+    if (state.mode === 'read' || (state.mode !== 'edit' && state.message === "")) {
         return (
             <div className={`button-add`}>
                 <Button action={handleAdd}>{children}</Button>

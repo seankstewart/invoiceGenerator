@@ -11,10 +11,10 @@ const SaveButton = ({children}) => {
         e.preventDefault();
         console.log('save item');
 
-        setState({...state, mode: 'read', message: "Item(s) Saved Successfully"})
+        setState({...state, mode: 'read', message: "Item(s) Saved Successfully", index: null})
     },[state, setState])
 
-    if (state.mode === 'edit' && state.message === "") {
+    if (state.mode === 'edit' && 'index' in state && state.index !== null) {
         return (
             <Button action={handleEdit}>{children}</Button>
         )
