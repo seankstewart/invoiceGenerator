@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import API from './api/api';
 import './App.scss';
 import Table from './components/table/Table';

@@ -10,11 +10,8 @@ const Table = () => {
   const [refState, setRef] = useState();
 
   React.useEffect(() => {
-    console.log('Table props', tableRef.current);
     setRef(tableRef)
   },[tableRef]);
-
-  console.log('refState::::::', refState);
 
   return (
     <table cellPadding="0" cellSpacing="0" border="1" ref={tableRef}>

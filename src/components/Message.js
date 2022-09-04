@@ -3,7 +3,6 @@ import { useAppContext } from '../App';
 
 const Message = () => {
 
-  debugger;
   const context = useAppContext();
   const { state } = context;
 
